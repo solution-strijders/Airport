@@ -15,7 +15,7 @@ WORKDIR "/src/Airport"
 RUN dotnet build "Airport.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "Airport.csproj" -c Release -o /app
+RUN dotnet publish "Airport.csproj" -c Release -o /app 
 
 FROM base AS final
 WORKDIR /app
