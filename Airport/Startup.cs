@@ -53,7 +53,7 @@ namespace Airport
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Airport API V1");
                 //Serve swagger UI at root page
-                c.RoutePrefix = string.Empty;
+                //c.RoutePrefix = string.Empty;
             });
 
             app.UseHttpsRedirection();
