@@ -2,41 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AirportController : ControllerBase
+    public class SpaceController : ControllerBase
     {
-        // GET api/Airport
+        // GET: api/Space
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/Airport/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET: api/Space/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/Airport
+        // POST: api/Space
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/Airport/5
+        // PUT: api/Space/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/Airport/5
+        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
