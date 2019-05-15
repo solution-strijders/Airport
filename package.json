@@ -1,0 +1,19 @@
+{
+  "name": "airport",
+  "version": "1.0.0",
+  "description": "Vliegen enzo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solution-strijders/Airport.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solution-strijders/Airport/issues"
+  },
+  "homepage": "https://github.com/solution-strijders/Airport#readme"
+}
