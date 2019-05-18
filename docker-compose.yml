@@ -1,0 +1,14 @@
+version: '3'
+ 
+services:
+ 
+
+    airplanemanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/airplanemanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - /domain/airplanemanagement/
+        ports: 
+          - 3000:3000
