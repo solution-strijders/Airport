@@ -16,7 +16,7 @@ const router = express.Router();
  *         description: rootPage
  */
 router.get("/", (req, res) => {
-    return res.send("Welcome to the Financial service");
+    return res.send("Welcome to the Flight service");
 });
 
 module.exports = router;
