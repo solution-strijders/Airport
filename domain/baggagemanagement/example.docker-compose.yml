@@ -1,9 +1,0 @@
-    newapp:
-        build: 
-          context: .
-          dockerfile: ./domain/newApp/Dockerfile
-        command: node app.js
-        volumes:
-          - ./domain/newApp:/app
-        ports: 
-          - 3420:3420
