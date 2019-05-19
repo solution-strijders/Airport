@@ -16,13 +16,13 @@ services:
             RABBITMQ_DEFAULT_PASS: rabbitmq
             RABBITMQ_DEFAULT_VHOST: /
 
-    airplanemanagement:
+    flightmanagement:
         build: 
           context: .
-          dockerfile: ./domain/airplanemanagement/Dockerfile
+          dockerfile: ./domain/flightmanagement/Dockerfile
         command: node app.js
         volumes:
-          - ./domain/airplanemanagement:/app
+          - ./domain/flightmanagement:/app
         ports: 
           - 3000:3000
 
