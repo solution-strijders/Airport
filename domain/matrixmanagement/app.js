@@ -1,9 +1,32 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+
+var router = require("./router");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//Swagger document definition
+const options = {
+	definition: {
+		info: {
+			version: 1.0, // Version (Req)
+			title: "Baggage Management", // Title (Req)
+			description: "API to claim all that baggage"
+		}
+	},
+	//Path to API docs
+	apis: ["./router.js"]
+}
+
+//Initialize swagger-js doc
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/", router);
 
 app.listen(process.env.PORT || 3007, () => {
 	if (process.env.PORT !== undefined) {
@@ -11,10 +34,6 @@ app.listen(process.env.PORT || 3007, () => {
 	} else {
 		console.log(`Server started at "http://localhost:3007/".`);
 	}
-});
-
-app.get("/", (req, res) => {
-    return res.send("I am working! | MatrixManagement");
 });
 
 module.exports = app;
