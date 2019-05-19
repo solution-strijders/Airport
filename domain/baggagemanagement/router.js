@@ -1,0 +1,40 @@
+const express = require('express');
+const router = express.Router();
+
+/**
+ * @swagger
+ *
+ * /:
+ *   get:
+ *     description: Introduction screen to application
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - none
+ *     responses:
+ *       200:
+ *         description: rootPage
+ */
+router.get("/", (req, res) => {
+    return res.send("Welcome to the Baggage service");
+});
+
+/**
+ * @swagger
+ * /claimBaggage:
+ *  get:
+ *     description: Gets all baggage
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - none
+ *     responses:
+ *       200:
+ *         description: rootPage
+ */
+router.get("/claimBaggage", (req, res) => {
+    return res.send("Claimed some baggage");
+});
+
+
+module.exports = router;
