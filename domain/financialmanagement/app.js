@@ -14,8 +14,8 @@ const options = {
 	definition: {
 		info: {
 			version: 1.0, // Version (Req)
-			title: "Baggage Management", // Title (Req)
-			description: "API to claim all that baggage"
+			title: "Financial Management", // Title (Req)
+			description: "API for financialmanagement"
 		}
 	},
 	//Path to API docs
