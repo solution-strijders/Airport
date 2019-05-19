@@ -26,84 +26,84 @@ services:
         ports: 
           - 3001:3001
 
-    # bordermanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/bordermanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/bordermanagement:/app
-    #     ports: 
-    #       - 3002:3002
+    bordermanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/bordermanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/bordermanagement:/app
+        ports: 
+          - 3002:3002
 
-    # checkinmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/checkinmanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/checkinmanagement:/app
-    #     ports: 
-    #       - 3003:3003
+    checkinmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/checkinmanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/checkinmanagement:/app
+        ports: 
+          - 3003:3003
 
-    # controlmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/controlmanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/controlmanagement:/app
-    #     ports: 
-    #       - 3004:3004
+    controlmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/controlmanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/controlmanagement:/app
+        ports: 
+          - 3004:3004
 
-    # financialmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/financialmanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/financialmanagement:/app
-    #     ports: 
-    #       - 3005:3005
+    financialmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/financialmanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/financialmanagement:/app
+        ports: 
+          - 3005:3005
 
-    # flightmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/flightmanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/flightmanagement:/app
-    #     ports: 
-    #       - 3006:3006
+    flightmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/flightmanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/flightmanagement:/app
+        ports: 
+          - 3006:3006
 
-    # matrixmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/matrixmanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/matrixmanagement:/app
-    #     ports: 
-    #       - 3007:3007
+    matrixmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/matrixmanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/matrixmanagement:/app
+        ports: 
+          - 3007:3007
 
-    # securitymanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/securitymanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/securitymanagement:/app
-    #     ports: 
-    #       - 3008:3008
+    securitymanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/securitymanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/securitymanagement:/app
+        ports: 
+          - 3008:3008
 
-    # spacemanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/spacemanagement/Dockerfile
-    #     command: node app.js
-    #     volumes:
-    #       - ./domain/spacemanagement:/app
-    #     ports: 
-    #       - 3009:3009
+    spacemanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/spacemanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/spacemanagement:/app
+        ports: 
+          - 3009:3009
 
 
