@@ -1,0 +1,109 @@
+version: '3'
+ 
+services:
+ 
+    rabbitmq:
+        image: rabbitmq:3.7.5-management
+        hostname: app-rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ./data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
+        environment:
+            RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
+            RABBITMQ_DEFAULT_USER: rabbitmq
+            RABBITMQ_DEFAULT_PASS: rabbitmq
+            RABBITMQ_DEFAULT_VHOST: /
+
+    baggagemanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/baggagemanagement/Dockerfile
+        command: node app.js
+        volumes:
+          - ./domain/baggagemanagement:/app
+        ports: 
+          - 3001:3001
+
+    # bordermanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/bordermanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/bordermanagement:/app
+    #     ports: 
+    #       - 3002:3002
+
+    # checkinmanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/checkinmanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/checkinmanagement:/app
+    #     ports: 
+    #       - 3003:3003
+
+    # controlmanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/controlmanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/controlmanagement:/app
+    #     ports: 
+    #       - 3004:3004
+
+    # financialmanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/financialmanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/financialmanagement:/app
+    #     ports: 
+    #       - 3005:3005
+
+    # flightmanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/flightmanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/flightmanagement:/app
+    #     ports: 
+    #       - 3006:3006
+
+    # matrixmanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/matrixmanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/matrixmanagement:/app
+    #     ports: 
+    #       - 3007:3007
+
+    # securitymanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/securitymanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/securitymanagement:/app
+    #     ports: 
+    #       - 3008:3008
+
+    # spacemanagement:
+    #     build: 
+    #       context: .
+    #       dockerfile: ./domain/spacemanagement/Dockerfile
+    #     command: node app.js
+    #     volumes:
+    #       - ./domain/spacemanagement:/app
+    #     ports: 
+    #       - 3009:3009
+
+
