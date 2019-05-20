@@ -1,5 +1,10 @@
 version: '3'
- 
+networks:
+    rabbitmq: ~
+
+volumes:
+    rabbitmq-data: ~
+
 services:
  
     rabbitmq:
@@ -9,28 +14,38 @@ services:
             - 5672:5672
             - 15672:15672
         volumes:
-            - ./data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
+            - rabbitmq-data:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
         environment:
             RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
             RABBITMQ_DEFAULT_USER: rabbitmq
             RABBITMQ_DEFAULT_PASS: rabbitmq
             RABBITMQ_DEFAULT_VHOST: /
+        networks:
+          - rabbitmq
 
     baggagemanagement:
         build: 
           context: .
           dockerfile: ./domain/baggagemanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/baggagemanagement:/app
         ports: 
-          - 3001:3001
+          - 3001:3000
+        networks:
+          - rabbitmq
 
     bordermanagement:
         build: 
           context: .
           dockerfile: ./domain/bordermanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/bordermanagement:/app
         ports: 
@@ -40,7 +55,10 @@ services:
         build: 
           context: .
           dockerfile: ./domain/checkinmanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/checkinmanagement:/app
         ports: 
@@ -50,7 +68,10 @@ services:
         build: 
           context: .
           dockerfile: ./domain/controlmanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/controlmanagement:/app
         ports: 
@@ -60,50 +81,65 @@ services:
         build: 
           context: .
           dockerfile: ./domain/financialmanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/financialmanagement:/app
         ports: 
-          - 3005:3005
+          - 3005:3000
 
     flightmanagement:
         build: 
           context: .
           dockerfile: ./domain/flightmanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/flightmanagement:/app
         ports: 
-          - 3006:3006
+          - 3006:3000
 
     matrixmanagement:
         build: 
           context: .
           dockerfile: ./domain/matrixmanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/matrixmanagement:/app
         ports: 
-          - 3007:3007
+          - 3007:3000
 
     securitymanagement:
         build: 
           context: .
           dockerfile: ./domain/securitymanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/securitymanagement:/app
         ports: 
-          - 3008:3008
+          - 3008:3000
 
     spacemanagement:
         build: 
           context: .
           dockerfile: ./domain/spacemanagement/Dockerfile
-        command: node app.js
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/spacemanagement:/app
         ports: 
-          - 3009:3009
+          - 3009:3000
 
 
