@@ -4,20 +4,16 @@ networks:
 
 volumes:
     rabbitmq-data: ~
+    axon_data: ~
 
 services:
 
     axon:
       image: axoniq/axonserver:4.1.2
       restart: always
-      networks:
-        - nginx
-        - axon
       hostname: axon
       volumes:
         - axon_data:/opt/axonserver/data
-      environment:
-        - AXONSERVER_HOSTNAME=axon
       expose:
         - 8024
         - 8124
@@ -52,6 +48,15 @@ services:
           - 3001:3000
         networks:
           - rabbitmq
+        links: 
+          - mongo_baggage
+
+    mongo_baggage:
+        image: mongo
+        volumes:
+          - /data/mongo_baggage/db:/data/db
+        ports:
+          - "27017:27017"
 
     bordermanagement:
         build: 
