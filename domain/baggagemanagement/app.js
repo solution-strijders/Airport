@@ -15,7 +15,7 @@ const options = {
 		info: {
 			version: 1.0, // Version (Req)
 			title: "Baggage Management", // Title (Req)
-			description: "API to claim all that baggage"
+			description: "API to claim all the baggage"
 		}
 	},
 	//Path to API docs
