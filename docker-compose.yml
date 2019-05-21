@@ -1,13 +1,13 @@
 version: '3'
 networks:
     rabbitmq: ~
+    mongo_baggage: ~
 
 volumes:
     rabbitmq-data: ~
     axon_data: ~
 
 services:
-
     axon:
       image: axoniq/axonserver:4.1.2
       restart: always
@@ -48,7 +48,6 @@ services:
           - 3001:3000
         networks:
           - rabbitmq
-        links: 
           - mongo_baggage
 
     mongo_baggage:
@@ -57,6 +56,9 @@ services:
           - /data/mongo_baggage/db:/data/db
         ports:
           - "27017:27017"
+        networks:
+          - mongo_baggage
+        
 
     bordermanagement:
         build: 
