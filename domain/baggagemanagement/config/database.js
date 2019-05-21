@@ -16,18 +16,8 @@ mongoose.connect(process.env.DB_HOST, options, error => {
   if (error) {
     console.log("Error connecting to ", process.env.DB_HOST, error);
   } else {
-    //console.log("Succesfully connected to ", process.env.DB_HOST);
+    console.log("Succesfully connected to ", process.env.DB_HOST);
   }
-});
-
-mongoose.connection.on("error", error => {
-  console.log(error.toString());
-  mongoose.disconnect();
-});
-
-mongoose.connection.on("disconnected", () => {
-  console.log("Unable to connect to Mongo, reconnecting...");
-  setTimeout(() => connect(), reconnectTimeout);
 });
 
 module.exports = mongoose;
