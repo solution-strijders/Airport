@@ -2,6 +2,15 @@ version: '3'
 networks:
     rabbitmq: ~
     mongo_baggage: ~
+    mongo_border: ~
+    mongo_checkin: ~
+    mongo_control: ~
+    mongo_financial: ~
+    mongo_flight: ~
+    mongo_matrix: ~
+    mongo_security: ~
+    mongo_space: ~
+
 
 volumes:
     rabbitmq-data: ~
@@ -73,6 +82,16 @@ services:
         ports: 
           - 3002:3000
 
+    mongo_border:
+        image: mongo
+        volumes:
+          - /data/mongo_border/db:/data/db
+        ports:
+          - "27018:27018"
+        networks:
+          - mongo_border
+        
+
     checkinmanagement:
         build: 
           context: .
@@ -85,6 +104,16 @@ services:
           - ./domain/checkinmanagement:/app
         ports: 
           - 3003:3000
+
+    mongo_checkin:
+        image: mongo
+        volumes:
+          - /data/mongo_checkin/db:/data/db
+        ports:
+          - "27019:27019"
+        networks:
+          - mongo_checkin
+        
 
     controlmanagement:
         build: 
@@ -99,6 +128,16 @@ services:
         ports: 
           - 3004:3000
 
+    mongo_control:
+        image: mongo
+        volumes:
+          - /data/mongo_control/db:/data/db
+        ports:
+          - "27020:27020"
+        networks:
+          - mongo_control
+        
+
     financialmanagement:
         build: 
           context: .
@@ -111,6 +150,16 @@ services:
           - ./domain/financialmanagement:/app
         ports: 
           - 3005:3000
+
+    mongo_financial:
+        image: mongo
+        volumes:
+          - /data/mongo_financial/db:/data/db
+        ports:
+          - "27021:27021"
+        networks:
+          - mongo_financial
+        
 
     flightmanagement:
         build: 
@@ -125,6 +174,15 @@ services:
         ports: 
           - 3006:3000
 
+    mongo_flight:
+        image: mongo
+        volumes:
+          - /data/mongo_flight/db:/data/db
+        ports:
+          - "27022:27022"
+        networks:
+          - mongo_flight
+
     matrixmanagement:
         build: 
           context: .
@@ -137,6 +195,16 @@ services:
           - ./domain/matrixmanagement:/app
         ports: 
           - 3007:3000
+
+    mongo_matrix:
+        image: mongo
+        volumes:
+          - /data/mongo_matrix/db:/data/db
+        ports:
+          - "27023:27023"
+        networks:
+          - mongo_matrix
+        
 
     securitymanagement:
         build: 
@@ -151,6 +219,16 @@ services:
         ports: 
           - 3008:3000
 
+    mongo_security:
+        image: mongo
+        volumes:
+          - /data/mongo_security/db:/data/db
+        ports:
+          - "27024:27024"
+        networks:
+          - mongo_security
+        
+
     spacemanagement:
         build: 
           context: .
@@ -163,5 +241,15 @@ services:
           - ./domain/spacemanagement:/app
         ports: 
           - 3009:3000
+
+    mongo_space:
+        image: mongo
+        volumes:
+          - /data/mongo_space/db:/data/db
+        ports:
+          - "27025:27025"
+        networks:
+          - mongo_space
+        
 
 
