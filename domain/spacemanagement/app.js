@@ -1,9 +1,32 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+
+var router = require("./router");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//Swagger document definition
+const options = {
+	definition: {
+		info: {
+			version: 1.0, // Version (Req)
+			title: "Space Management", // Title (Req)
+			description: "API for Space Management"
+		}
+	},
+	//Path to API docs
+	apis: ["./router.js"]
+}
+
+//Initialize swagger-js doc
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/", router);
 
 app.listen(process.env.PORT || 3009, () => {
 	if (process.env.PORT !== undefined) {
@@ -11,10 +34,6 @@ app.listen(process.env.PORT || 3009, () => {
 	} else {
 		console.log(`Server started at "http://localhost:3009/".`);
 	}
-});
-
-app.get("/", (req, res) => {
-    return res.send("I am working! | SpaceManagement");
 });
 
 module.exports = app;

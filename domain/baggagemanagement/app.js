@@ -26,7 +26,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use("/", router);
+app.use("/api", router);
 
 app.listen(process.env.PORT || 3001, () => {
 	if (process.env.PORT !== undefined) {
