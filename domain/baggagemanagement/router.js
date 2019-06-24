@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 //Declare any routes here.
-const userRoutes = require("./routes/user_routes.js");
+const baggageRoutes = require("./routes/baggage_routes.js/index.js");
 
-router.use("/users", userRoutes);
+router.use("/users", baggageRoutes);
 
 router.use((error, req, res, next) => {
   res.status(error.header || 500).send({
