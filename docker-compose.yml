@@ -2,6 +2,15 @@ version: '3'
 networks:
     rabbitmq: ~
     mongo_baggage: ~
+    mongo_border: ~
+    mongo_checkin: ~
+    mongo_control: ~
+    mongo_financial: ~
+    mongo_flight: ~
+    mongo_matrix: ~
+    mongo_security: ~
+    mongo_space: ~
+
 
 volumes:
     rabbitmq-data: ~
