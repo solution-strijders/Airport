@@ -81,6 +81,9 @@ services:
           - ./domain/bordermanagement:/app
         ports: 
           - 3002:3000
+        networks:
+          - rabbitmq
+          - mongo_border
 
     mongo_border:
         image: mongo
@@ -104,6 +107,9 @@ services:
           - ./domain/checkinmanagement:/app
         ports: 
           - 3003:3000
+        networks:
+          - rabbitmq
+          - mongo_checkin
 
     mongo_checkin:
         image: mongo
@@ -127,6 +133,9 @@ services:
           - ./domain/controlmanagement:/app
         ports: 
           - 3004:3000
+        networks:
+          - rabbitmq
+          - mongo_control
 
     mongo_control:
         image: mongo
@@ -150,6 +159,9 @@ services:
           - ./domain/financialmanagement:/app
         ports: 
           - 3005:3000
+        networks:
+          - rabbitmq
+          - mongo_financial
 
     mongo_financial:
         image: mongo
@@ -173,6 +185,9 @@ services:
           - ./domain/flightmanagement:/app
         ports: 
           - 3006:3000
+        networks:
+          - rabbitmq
+          - mongo_flight
 
     mongo_flight:
         image: mongo
@@ -195,6 +210,9 @@ services:
           - ./domain/matrixmanagement:/app
         ports: 
           - 3007:3000
+        networks:
+          - rabbitmq
+          - mongo_matrix
 
     mongo_matrix:
         image: mongo
@@ -218,6 +236,9 @@ services:
           - ./domain/securitymanagement:/app
         ports: 
           - 3008:3000
+        networks:
+          - rabbitmq
+          - mongo_security
 
     mongo_security:
         image: mongo
@@ -241,6 +262,9 @@ services:
           - ./domain/spacemanagement:/app
         ports: 
           - 3009:3000
+        networks:
+          - rabbitmq
+          - mongo_space
 
     mongo_space:
         image: mongo
