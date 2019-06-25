@@ -1,4 +1,4 @@
-const Baggage = require("../models/baggage");
+const Baggage = require("../models/bagage");
 
 module.exports = {
     Claim(req, res, next) {
