@@ -15,7 +15,7 @@ const options = {
 		info: {
 			version: 1.0, // Version (Req)
 			title: "Baggage Management", // Title (Req)
-			description: "API to claim all that baggage"
+			description: "API for baggage claiming and storage"
 		}
 	},
 	//Path to API docs
@@ -26,7 +26,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use("/api", router);
+app.use("/", router);
 
 app.listen(process.env.PORT || 3001, () => {
 	if (process.env.PORT !== undefined) {
