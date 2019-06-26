@@ -1,8 +1,10 @@
 const User = require("../models/users");
+const rabbot = require("../rabbot/rabbot");
+const Baggage = require("../models/bagage");
 
 module.exports = {
-    Get(req, res, next) {
-        User.find({}, function (err, docs) {
+    Claim(req, res, next) {
+        Baggage.find({}, function (err, docs) {
             if (!err) {
                 res.status(200).json({
                     status: {
@@ -13,16 +15,23 @@ module.exports = {
             } else { throw err; }
         });
     },
-    New(req, res, next) {
-        var user = new User({ Name: 'hodor', Age: 420 });
+    Store(req, res, next) {
+        var baggage = new Baggage();
+        baggage.Weight = req.body.Weight;
 
-        user.save(function (err) {
+        baggage.save(function (err, result) {
             if (err) console.log(err);
+
+            rabbot.publish("ex.1", {
+                routingKey: "baggageNoted",
+                type: "baggageNoted",
+                body: result
+             });
             res.status(200).json({
                 status: {
                     query: 'OK'
                 },
-                result: user
+                result: baggage
             }).end();
         });
     }
