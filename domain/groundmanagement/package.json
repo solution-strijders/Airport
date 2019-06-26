@@ -1,0 +1,20 @@
+{
+  "name": "bordermanagement",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha ./test/**/*test.js --no-deprecation"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
+    "express": "^4.17.0",
+    "mongoose": "^5.1.6",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui-express": "^4.0.4"
+  }
+}
