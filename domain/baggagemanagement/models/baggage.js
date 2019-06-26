@@ -1,11 +1,15 @@
 const mongoose = require('../config/database');
 
+const flightSchema = require('./flight').schema;
+
 const baggageSchema = new mongoose.Schema({
-    //TODO: Add plane
     Weight: {
         type: Number,
         required: true,
-        min: 0
+        minlength: 1
+    },
+    Flight: {
+        type: flightSchema
     }
 });
 
