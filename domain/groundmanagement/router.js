@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 //Declare any routes here.
-const userRoutes = require("./routes/user_routes.js");
+const groundRoutes = require("./routes/ground_routes.js");
 
-router.use("/users", userRoutes);
+router.use("/ground", groundRoutes);
 
 router.use((error, req, res, next) => {
   res.status(error.header || 500).send({
