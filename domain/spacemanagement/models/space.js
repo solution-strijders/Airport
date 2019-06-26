@@ -5,11 +5,9 @@ const spaceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    StartDate: {
-        type: Date
-    },
-    EndDate: {
-        type: Date
+    Status: {
+        type: String,
+        required: true
     },
     SpaceType: {
         type: String
