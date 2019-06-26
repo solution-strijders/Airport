@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-const userController = require('../controller/baggageController');
+const borderController = require('../controller/borderController');
 
 /* GET users listing. */
-router.get('/', userController.Get);
-router.post('/', userController.New);
+router.get('/', borderController.GetPassengers);
+router.post('/', borderController.CreatePassenger);
 
 module.exports = router;
