@@ -1,6 +1,6 @@
 const mongoose = require('../config/database');
 
-const planeSchema = require('../models/plane').schema;
+const planeSchema = require('../models/plane').default.schema;
 
 const airlineSchema = new mongoose.Schema({
     Name: {
@@ -14,5 +14,4 @@ const airlineSchema = new mongoose.Schema({
 });
 
 const Airlines = mongoose.model('Airlines', airlineSchema);
-
 module.exports = Airlines; 
