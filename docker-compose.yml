@@ -249,7 +249,6 @@ services:
     #     networks:
     #       - mongo_security
         
-
     spacemanagement:
         build: 
           context: .
@@ -257,11 +256,16 @@ services:
         restart: always
         environment:
           - PORT=3000
+          - RABBIT_HOST=rabbitmq
+          - RABBIT_USER=rabbitmq
+          - RABBIT_PASS=rabbitmq
         command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/spacemanagement:/app
         ports: 
           - 3009:3000
+        depends_on:
+          - rabbitmq
         networks:
           - rabbitmq
           - mongo_space
