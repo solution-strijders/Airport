@@ -10,7 +10,6 @@ networks:
     mongo_matrix: ~
     mongo_security: ~
     mongo_space: ~
-    mongo_ground: ~
 
 
 volumes:
@@ -275,32 +274,6 @@ services:
           - "27025:27025"
         networks:
           - mongo_space
-
-          
-    groundmanagement:
-        build: 
-          context: .
-          dockerfile: ./domain/groundmanagement/Dockerfile
-        restart: always
-        environment:
-          - PORT=3000
-        command: ["/bin/sh", "-c", "npm install && node app.js"]
-        volumes:
-          - ./domain/groundmanagement:/app
-        ports: 
-          - 3010:3000
-        networks:
-          - rabbitmq
-          - mongo_ground
-
-    mongo_ground:
-        image: mongo
-        volumes:
-          - /data/ground
-        ports:
-          - "27026:27026"
-        networks:
-          - mongo_ground
         
 
 

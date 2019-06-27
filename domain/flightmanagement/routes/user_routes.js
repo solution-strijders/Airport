@@ -4,7 +4,7 @@ var router = express.Router();
 const userController = require('../controller/baggageController');
 
 /* GET users listing. */
-router.get('/', userController.Get);
-router.post('/', userController.New);
+router.get('/', userController.Claim);
+router.post('/', userController.Store);
 
 module.exports = router;
