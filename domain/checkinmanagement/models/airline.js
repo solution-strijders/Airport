@@ -14,5 +14,4 @@ const airlineSchema = new mongoose.Schema({
 });
 
 const Airlines = mongoose.model('Airlines', airlineSchema);
-
 module.exports = Airlines; 

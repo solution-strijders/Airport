@@ -8,8 +8,8 @@ module.exports = {
                 CheckInNumber: req.body.CheckInNumber,
                 Flight: flight
             }, function(err, checkIn) {
-                if(!err){
-                    res.status(200).json( {
+                if(!err) {
+                    res.status(200).json({
                         status: {
                             query: 'CheckIn created.'
                         },
