@@ -14,8 +14,8 @@ const options = {
 	definition: {
 		info: {
 			version: 1.0, // Version (Req)
-			title: "Space Management", // Title (Req)
-			description: "API for spacemanagement"
+			title: "Financial Management", // Title (Req)
+			description: "API for financialmanagement"
 		}
 	},
 	//Path to API docs
@@ -28,11 +28,11 @@ const swaggerSpec = swaggerJSDoc(options);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/", router);
 
-app.listen(process.env.PORT || 3009, () => {
+app.listen(process.env.PORT || 3005, () => {
 	if (process.env.PORT !== undefined) {
 		console.log(`Server started at "http://localhost:${process.env.PORT}/".`);
 	} else {
-		console.log(`Server started at "http://localhost:3009/".`);
+		console.log(`Server started at "http://localhost:3005/".`);
 	}
 });
 
