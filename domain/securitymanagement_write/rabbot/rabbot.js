@@ -138,7 +138,9 @@ rabbot.handle("baggageStowed", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("passengerNoted", msg => {
@@ -146,7 +148,9 @@ rabbot.handle("passengerNoted", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("checkinNoted", msg => {
@@ -154,7 +158,9 @@ rabbot.handle("checkinNoted", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("landingApproved", msg => {
@@ -162,7 +168,9 @@ rabbot.handle("landingApproved", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("departureApproved", msg => {
@@ -170,7 +178,9 @@ rabbot.handle("departureApproved", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("statusChanged", msg => {
@@ -178,7 +188,9 @@ rabbot.handle("statusChanged", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("billNoted", msg => {
@@ -186,7 +198,9 @@ rabbot.handle("billNoted", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("fuelApproved", msg => {
@@ -194,7 +208,9 @@ rabbot.handle("fuelApproved", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 rabbot.handle("spaceNoted", msg => {
