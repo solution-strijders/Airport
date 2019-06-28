@@ -4,8 +4,6 @@ const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 
-var router = require("./router");
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -19,14 +17,7 @@ const options = {
 		}
 	},
 	//Path to API docs
-	apis: ["./router.js"]
 }
-
-//Initialize swagger-js doc
-const swaggerSpec = swaggerJSDoc(options);
-
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use("/", router);
 
 app.listen(process.env.PORT || 3008, () => {
 	if (process.env.PORT !== undefined) {

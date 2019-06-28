@@ -73,38 +73,38 @@ rabbot
     bindings: [
       {
         exchange: "ex.1",
-        target: "financialmanagement_queue",
-        keys: ["baggageNoted", "flightNoted"]
-      },
-      {
-        exchange: "ex.1",
         target: "baggagemanagement_queue",
-        keys: [""]
+        keys: ["baggageStowed"]
       },
       {
         exchange: "ex.1",
         target: "bordermanagement_queue",
-        keys: [""]
+        keys: ["passengerNoted"]
       },
       {
         exchange: "ex.1",
         target: "checkinmanagement_queue",
-        keys: [""]
+        keys: ["checkinNoted"]
       },
       {
         exchange: "ex.1",
         target: "controlmanagement_queue",
-        keys: [""]
+        keys: ["landingApproved", "departureApproved"]
       },
       {
         exchange: "ex.1",
         target: "flightmanagement_queue",
-        keys: [""]
+        keys: ["statusChanged"]
+      },
+      {
+        exchange: "ex.1",
+        target: "financialmanagement_queue",
+        keys: ["billNoted"]
       },
       {
         exchange: "ex.1",
         target: "groundmanagement_queue",
-        keys: [""]
+        keys: ["fuelApproved"]
       },
       {
         exchange: "ex.1",
@@ -114,18 +114,18 @@ rabbot
       {
         exchange: "ex.1",
         target: "spacemanagement_queue",
-        keys: [""]
+        keys: ["spaceNoted"]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
-    rabbot.startSubscription("financialmanagement_queue");
     rabbot.startSubscription("baggagemanagement_queue");
     rabbot.startSubscription("bordermanagement_queue");
     rabbot.startSubscription("checkinmanagement_queue");
     rabbot.startSubscription("controlmanagement_queue");
     rabbot.startSubscription("flightmanagement_queue");
+    rabbot.startSubscription("financialmanagement_queue");
     rabbot.startSubscription("groundmanagement_queue");
     rabbot.startSubscription("matrixmanagement_queue");
     rabbot.startSubscription("spacemanagement_queue");
@@ -133,7 +133,7 @@ rabbot
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbot.handle("baggageNoted", msg => {
+rabbot.handle("baggageStowed", msg => {
   new Event({
     Type: msg.type,
     Queue: msg.queue,
@@ -141,7 +141,7 @@ rabbot.handle("baggageNoted", msg => {
   })
 });
 
-rabbot.handle("flightNoted", msg => {
+rabbot.handle("passengerNoted", msg => {
   new Event({
     Type: msg.type,
     Queue: msg.queue,
@@ -149,7 +149,60 @@ rabbot.handle("flightNoted", msg => {
   })
 });
 
+rabbot.handle("checkinNoted", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
 
+rabbot.handle("landingApproved", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
 
+rabbot.handle("departureApproved", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
+
+rabbot.handle("statusChanged", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
+
+rabbot.handle("billNoted", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
+
+rabbot.handle("fuelApproved", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
+
+rabbot.handle("spaceNoted", msg => {
+  new Event({
+    Type: msg.type,
+    Queue: msg.queue,
+    Body: JSON.stringify(msg.body)
+  })
+});
 
 module.exports = rabbot;
