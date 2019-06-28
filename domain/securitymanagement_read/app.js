@@ -14,8 +14,8 @@ const options = {
 	definition: {
 		info: {
 			version: 1.0, // Version (Req)
-			title: "Security Management", // Title (Req)
-			description: "API for security management"
+			title: "Security Management Read", // Title (Req)
+			description: "Read API for security management"
 		}
 	},
 	//Path to API docs
@@ -28,11 +28,11 @@ const swaggerSpec = swaggerJSDoc(options);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/", router);
 
-app.listen(process.env.PORT || 3008, () => {
+app.listen(process.env.PORT || 3011, () => {
 	if (process.env.PORT !== undefined) {
 		console.log(`Server started at "http://localhost:${process.env.PORT}/".`);
 	} else {
-		console.log(`Server started at "http://localhost:3008/".`);
+		console.log(`Server started at "http://localhost:3011/".`);
 	}
 });
 
