@@ -6,6 +6,9 @@ const billSchema = new mongoose.Schema({
     Name: {
         type: String,
         required: true
+    },
+    BillType: {
+        type: String,
     }
 });
 

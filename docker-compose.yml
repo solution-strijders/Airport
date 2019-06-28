@@ -145,7 +145,6 @@ services:
     #       - "27020:27020"
     #     networks:
     #       - mongo_control
-        
 
     financialmanagement:
         build: 
@@ -154,11 +153,16 @@ services:
         restart: always
         environment:
           - PORT=3000
+          - RABBIT_HOST=rabbitmq
+          - RABBIT_USER=rabbitmq
+          - RABBIT_PASS=rabbitmq
         command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/financialmanagement:/app
         ports: 
           - 3005:3000
+        depends_on:
+          - rabbitmq
         networks:
           - rabbitmq
           - mongo_financial

@@ -1,5 +1,5 @@
 const rabbot = require("rabbot");
-const space = require("../models/space").Space;
+const bill = require("../models/bill").Bill;
 
 require("dotenv").config();
 
@@ -19,7 +19,7 @@ rabbot
     exchanges: [{ name: "ex.1", type: "direct", autoDelete: false }],
     queues: [
       {
-        name: "spacemanagement_queue",
+        name: "financialmanagement_queue",
         autoDelete: false,
         durable: true,
         subscribe: true
@@ -28,25 +28,25 @@ rabbot
     bindings: [
       {
         exchange: "ex.1",
-        target: "spacemanagement_queue",
-        keys: ["spaceNoted"]
+        target: "financialmanagement_queue",
+        keys: ["billNoted"]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
-    rabbot.startSubscription("spacemanagement_queue");
+    rabbot.startSubscription("billmanagement_queue");
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-  rabbot.on( "unreachable", function() {
+rabbot.on( "unreachable", function() {
     rabbot.retry();
-  } );
+});
 
-rabbot.handle("spaceNoted", msg => {
-  console.log("I SEE SPACE" + msg);
-  new space(msg)
+rabbot.handle("billNoted", msg => {
+  console.log("ALL THESE BILLS" + msg);
+  new bill(msg)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
