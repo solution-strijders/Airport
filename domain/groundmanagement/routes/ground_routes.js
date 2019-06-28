@@ -5,6 +5,6 @@ const groundController = require('../controller/groundController');
 
 router.get('/', groundController.index);
 router.get('/:id', groundController.read);
-router.put('/:id', groundController.edit);
+router.put('/:id/approve-fuel', groundController.approveFuel);
 
 module.exports = router;

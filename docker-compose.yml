@@ -10,6 +10,7 @@ networks:
     mongo_matrix: ~
     mongo_security: ~
     mongo_space: ~
+    mongo_ground: ~
 
 
 volumes:
@@ -109,7 +110,6 @@ services:
         networks:
           - mongo_checkin
         
-
     controlmanagement:
         build: 
           context: .
@@ -117,6 +117,9 @@ services:
         restart: always
         environment:
           - PORT=3000
+          - RABBIT_HOST=rabbitmq
+          - RABBIT_USER=rabbitmq
+          - RABBIT_PASS=rabbitmq
         command: ["/bin/sh", "-c", "npm install && node app.js"]
         volumes:
           - ./domain/controlmanagement:/app
@@ -271,5 +274,31 @@ services:
         networks:
           - mongo_space
         
+    groundmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/groundmanagement/Dockerfile
+        restart: always
+        environment:
+          - PORT=3000
+          - RABBIT_HOST=rabbitmq
+          - RABBIT_USER=rabbitmq
+          - RABBIT_PASS=rabbitmq
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/groundmanagement:/app
+        ports: 
+          - 3010:3000
+        networks:
+          - rabbitmq
+          - mongo_ground
 
-
+    mongo_ground:
+        image: mongo
+        volumes:
+          - /data/ground
+        ports:
+          - "27026:27026"
+        networks:
+          - mongo_ground
+        

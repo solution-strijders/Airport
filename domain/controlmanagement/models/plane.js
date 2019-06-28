@@ -7,17 +7,11 @@ const planeSchema = new mongoose.Schema({
         minlength: 1
     },
     CarryCapacity: {
-        type: Number
+        type: Number,
     },
     PassengerLimit: {
         type: Number
-    },
-    FuelApproved: {
-        type: Boolean
-    },
-    Notes: {
-        type: String
-    }
+    } 
 });
 
 const Planes = mongoose.model('Planes', planeSchema);

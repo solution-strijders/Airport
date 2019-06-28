@@ -10,6 +10,12 @@ const flightSchema = new mongoose.Schema({
         required: true,
         minlength: 1
     },
+    TakeoffApproved: {
+        type: Boolean
+    },
+    LandingApproved: {
+        type: Boolean
+    },
     Plane: {
         type: planeSchema
     },

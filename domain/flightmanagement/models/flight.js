@@ -1,11 +1,13 @@
 const mongoose = require('../config/database');
 
-const planeSchema = require('../models/plane');
-const airlineSchema = require('../models/airline');
-const passengerSchema = require('../models/passenger');
+const planeSchema = require('../models/plane').schema;
+const airlineSchema = require('../models/airline').schema;
+const passengerSchema = require('../models/passenger').schema;
+const bagageSchema = require('../models/bagage').schema;
+
 
 const flightSchema = new mongoose.Schema({
-    Name: {
+    FlightNumber: {
         type: String,
         required: true,
         minlength: 1
@@ -18,6 +20,27 @@ const flightSchema = new mongoose.Schema({
     },
     Passengers: {
         type: [passengerSchema]
+    },
+    Baggage:{
+        type: [bagageSchema]
+    },
+    Origin: {
+        type: String
+    },
+    Destination: {
+        type: String
+    },
+    Gate:{
+        type: String
+    },
+    Status:{
+        type: String
+    },
+    CurrentPassengers:{
+        type: Number
+    },
+    DepartDateTime:{
+        type: Date
     }
 });
 
