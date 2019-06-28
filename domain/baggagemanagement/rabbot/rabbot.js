@@ -1,5 +1,4 @@
 const rabbot = require("rabbot");
-const bagage = require("../models/bagage");
 const flight = require('../models/flight');
 const passenger = require('../models/passenger');
 const plane = require('../models/plane');
