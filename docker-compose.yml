@@ -15,19 +15,8 @@ networks:
 
 volumes:
     rabbitmq-data: ~
-    axon_data: ~
 
 services:
-    axon:
-      image: axoniq/axonserver:4.1.2
-      restart: always
-      hostname: axon
-      volumes:
-        - axon_data:/opt/axonserver/data
-      expose:
-        - 8024
-        - 8124
- 
     rabbitmq:
         image: rabbitmq:3.7.5-management
         hostname: app-rabbitmq
@@ -121,7 +110,6 @@ services:
         networks:
           - mongo_checkin
         
-
     controlmanagement:
         build: 
           context: .
@@ -149,7 +137,6 @@ services:
           - "27020:27020"
         networks:
           - mongo_control
-        
 
     financialmanagement:
         build: 
@@ -181,7 +168,6 @@ services:
         networks:
           - mongo_financial
         
-
     flightmanagement:
         build: 
           context: .
@@ -258,7 +244,6 @@ services:
         networks:
           - mongo_security
         
-
     spacemanagement:
         build: 
           context: .

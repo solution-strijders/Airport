@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 //Declare any routes here.
-const spaceRoutes = require("./routes/space_routes.js");
+const financeDepRoutes = require("./routes/department_routes.js");
 
-router.use("/space", spaceRoutes);
+router.use("/finance", financeDepRoutes);
 
 router.use((error, req, res, next) => {
   res.status(error.header || 500).send({
