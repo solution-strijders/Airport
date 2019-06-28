@@ -1,4 +1,5 @@
 const Space = require("../models/space");
+const rabbot = require("../rabbot/rabbot");
 
 module.exports = {
     Index(req, res, next){
@@ -21,7 +22,14 @@ module.exports = {
         }
 
         Space.create(params)
-            .then(spaces => res.send(spaces))
+            .then(spaces => {
+                rabbot.publish("ex.1", {
+                    routingKey: "spaceNoted",
+                    type: "spaceNoted",
+                    body: params
+                 });
+             res.send(spaces)
+            }) 
             .catch(next);
     },
     ReserveSpace(req, res, next){

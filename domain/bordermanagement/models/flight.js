@@ -1,8 +1,8 @@
 const mongoose = require('../config/database');
 
-const planeSchema = require('../models/plane');
-const airlineSchema = require('../models/airline');
-const passengerSchema = require('../models/passenger');
+const planeSchema = require('../models/plane').schema;
+const airlineSchema = require('../models/airline').schema;
+const passengerSchema = require('../models/passenger').schema;
 
 const flightSchema = new mongoose.Schema({
     Name: {
