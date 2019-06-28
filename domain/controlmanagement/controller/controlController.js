@@ -23,12 +23,12 @@ module.exports = {
     },
 
     approveTakeoff(req, res, next) {
-        const threadId = req.params.id;
-        const threadProps = {
+        const objectId = req.params.id;
+        const objectProps = {
             TakeoffApproved: true
         };
 
-        Flight.findByIdAndUpdate(threadId, threadProps, { new: true })
+        Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
             .orFail(() => Error('Not found'))
             .then(flight => res.status(200).json({
                 status: { query: 'OK' },
@@ -38,12 +38,12 @@ module.exports = {
     },
 
     approveLanding(req, res, next) {
-        const threadId = req.params.id;
-        const threadProps = {
+        const objectId = req.params.id;
+        const objectProps = {
             LandingApproved: true
         };
 
-        Flight.findByIdAndUpdate(threadId, threadProps, { new: true })
+        Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
             .orFail(() => Error('Not found'))
             .then(flight => res.status(200).json({
                 status: { query: 'OK' },

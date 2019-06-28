@@ -22,12 +22,10 @@ module.exports = {
             .catch(next);
     },
 
-    edit(req, res, next) {
+    approveFuel(req, res, next) {
         const objectId = req.params.id;
         const objectProps = {
-            Name: req.body.name,
-            Fuel: req.body.fuel,
-            Notes: req.body.notes
+            FuelApproved: true
         };
 
         Plane.findByIdAndUpdate(objectId, objectProps, { new: true })
