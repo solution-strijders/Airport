@@ -19,6 +19,11 @@ module.exports = {
             Age: req.body.age
         }, function(err, passenger){
             if(!err){
+                rabbit.publish("ex.1", {
+                    routingKey: "passengerNoted",
+                    type: "passengerNoted",
+                    body: passenger
+                 });
                 res.status(200).json({
                     status: {
                         query: 'OK'
