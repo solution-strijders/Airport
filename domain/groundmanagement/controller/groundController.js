@@ -1,4 +1,5 @@
 const Plane = require("../models/plane");
+const rabbot = require("../config/rabbot");
 
 module.exports = {
     index(req, res, next) {
@@ -30,10 +31,18 @@ module.exports = {
 
         Plane.findByIdAndUpdate(objectId, objectProps, { new: true })
             .orFail(() => Error('Not found'))
-            .then(plane => res.status(200).json({
-                status: { query: 'OK' },
-                result: plane
-            }))
+            .then(plane => {
+                rabbot.publish("ex.1", {
+                    routingKey: "fuelApproved",
+                    type: "fuelApproved",
+                    body: plane
+                });
+
+                res.status(200).json({
+                    status: { query: 'OK' },
+                    result: plane
+                });
+            })
             .catch(next);
     }
 }

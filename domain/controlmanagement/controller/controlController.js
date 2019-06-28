@@ -1,4 +1,5 @@
 const Flight = require("../models/flight");
+const rabbot = require("../config/rabbot");
 
 module.exports = {
     index(req, res, next) {
@@ -30,10 +31,18 @@ module.exports = {
 
         Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
             .orFail(() => Error('Not found'))
-            .then(flight => res.status(200).json({
-                status: { query: 'OK' },
-                result: flight
-            }))
+            .then(flight => {
+                rabbot.publish("ex.1", {
+                    routingKey: "takeoffApproved",
+                    type: "takeoffApproved",
+                    body: flight
+                });
+
+                res.status(200).json({
+                    status: { query: 'OK' },
+                    result: flight
+                });
+            })
             .catch(next);
     },
 
@@ -45,10 +54,18 @@ module.exports = {
 
         Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
             .orFail(() => Error('Not found'))
-            .then(flight => res.status(200).json({
-                status: { query: 'OK' },
-                result: flight
-            }))
+            .then(flight => {
+                rabbot.publish("ex.1", {
+                    routingKey: "landingApproved",
+                    type: "landingApproved",
+                    body: flight
+                });
+
+                res.status(200).json({
+                    status: { query: 'OK' },
+                    result: flight
+                })
+            })
             .catch(next);
     }
 }
