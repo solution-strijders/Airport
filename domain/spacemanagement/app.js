@@ -15,7 +15,7 @@ const options = {
 		info: {
 			version: 1.0, // Version (Req)
 			title: "Space Management", // Title (Req)
-			description: "API for Space Management"
+			description: "API for spacemanagement"
 		}
 	},
 	//Path to API docs
