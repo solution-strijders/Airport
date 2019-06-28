@@ -202,7 +202,9 @@ rabbot.handle("spaceNoted", msg => {
     Type: msg.type,
     Queue: msg.queue,
     Body: JSON.stringify(msg.body)
-  })
+  }).save()
+  .then(() => msg.ack())
+  .catch(() => msg.nack());
 });
 
 module.exports = rabbot;

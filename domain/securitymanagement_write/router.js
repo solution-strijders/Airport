@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 //Declare any routes here.
-const CheckInRoutes = require("./routes/checkin_routes.js.js");
+const SecurityRouters = require("./routes/security_routes.js");
 
-router.use("/checkin", CheckInRoutes);
+router.use("/security", SecurityRouters);
 
 router.use((error, req, res, next) => {
   res.status(error.header || 500).send({
