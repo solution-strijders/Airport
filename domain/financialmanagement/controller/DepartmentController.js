@@ -20,7 +20,14 @@ module.exports = {
         }
 
         Department.create(params)
-            .then(spaces => res.send(spaces))
+            .then(spaces => {
+                rabbot.publish("ex.1", {
+                    routingKey: "spaceNoted",
+                    type: "spaceNoted",
+                    body: params
+                 });
+                res.send(spaces)
+            })
             .catch(next);
     },
     //TODO: Add bill option (Group and ID)

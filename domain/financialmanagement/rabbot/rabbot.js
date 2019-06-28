@@ -1,5 +1,6 @@
 const rabbot = require("rabbot");
-const space = require("../models/space").Space;
+const bill = require("../models/bill").Bill;
+const dept = require("../models/FinanceDepartment").FinanceDept;
 
 require("dotenv").config();
 
@@ -23,19 +24,31 @@ rabbot
         autoDelete: false,
         durable: true,
         subscribe: true
+      },
+      {
+        name: "spacemanagement_queue",
+        autoDelete: false,
+        durable: true,
+        subscribe: true
       }
     ],
     bindings: [
       {
         exchange: "ex.1",
         target: "financialmanagement_queue",
-        keys: ["billNoted"]
+        keys: ["billNoted", "departmentCreated"]
+      },
+      {
+        exchange: "ex.1",
+        target: "spacemanagement_queue",
+        keys: ["spaceNoted"]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
     rabbot.startSubscription("financialmanagement_queue");
+    rabbot.startSubscription("spacemanagement_queue");
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
@@ -46,6 +59,22 @@ rabbot
 
 rabbot.handle("billNoted", msg => {
   console.log("ALL THESE BILLS" + msg);
+  new bill(msg)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+
+rabbot.handle("departmentCreated", msg => {
+  console.log("ALL THESE DEPARTMENTS" + msg);
+  new dept(msg)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+
+rabbot.handle("spaceNoted", msg => {
+  console.log("I SEE SPACE" + msg);
   new space(msg)
     .save()
     .then(() => msg.ack())
