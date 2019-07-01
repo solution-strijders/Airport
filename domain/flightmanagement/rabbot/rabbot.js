@@ -1,9 +1,7 @@
 const rabbot = require("rabbot");
-const baggage = require("../models/baggage");
-const flight = require('../models/flight');
-const passenger = require('../models/passenger');
-const plane = require('../models/plane');
-const user = require('../models/users');
+const Flight = require('../models/flight');
+const Passenger = require('../models/passenger');
+const Plane = require('../models/plane');
 require("dotenv").config();
 
 rabbot
@@ -43,21 +41,21 @@ rabbot
 
 
 rabbot.handle("flightNoted", msg => {
-    new flight(msg)
+    new Flight(msg)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 
 rabbot.handle("passengerNoted", msg => {
-    new passenger(msg)
+    new Passenger(msg)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 
 rabbot.handle("planeNoted", msg => {
-    new plane(msg)
+    new Plane(msg)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
