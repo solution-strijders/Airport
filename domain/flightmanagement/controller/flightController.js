@@ -1,5 +1,6 @@
-const User = require("../models/users");
 const rabbot = require("../rabbot/rabbot");
+
+const User = require("../models/users");
 const Baggage = require("../models/baggage");
 const Flight = require('../models/flight');
 const Airline = require('../models/airline');
@@ -33,8 +34,14 @@ module.exports = {
 
         if (req.body.Status == 'Departing') {
             if (!flight.Plane.IsFueled || !flight.Plane.IsBaggageStowed) {
-                res.status(401).json({message: "Flight isn't fueled or baggage isn't stowed."});
+                res.status(401).json({ message: "Flight isn't fueled or baggage isn't stowed." });
                 return;
+            }
+        }
+
+        if (req.body.Status == 'Landed') {
+            if (!flight.LandingApproved) {
+                res.status(401).json({ message: "Flight can't land if not approved by control tower." });
             }
         }
 
