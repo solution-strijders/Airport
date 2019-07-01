@@ -3,7 +3,8 @@ const rabbot = require("../config/rabbot");
 
 module.exports = {
     index(req, res, next) {
-        Flight.findById({})
+        Flight.find()
+            .or([{ Status: 'Landing' }, { Status: 'Departing' }])
             .then(flights => res.status(200).json({
                 status: { query: 'OK' },
                 result: flights
@@ -26,10 +27,12 @@ module.exports = {
     approveTakeoff(req, res, next) {
         const objectId = req.params.id;
         const objectProps = {
-            TakeoffApproved: true
+            Status: 'Landed',
+            TakeoffApproved: true,
         };
 
         Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
+            .and({ Status: 'Departing' })
             .orFail(() => Error('Not found'))
             .then(flight => {
                 rabbot.publish("ex.1", {
@@ -49,10 +52,12 @@ module.exports = {
     approveLanding(req, res, next) {
         const objectId = req.params.id;
         const objectProps = {
-            LandingApproved: true
+            Status: 'Landed',
+            LandingApproved: true,
         };
 
         Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
+            .and({ Status: 'Landing' })
             .orFail(() => Error('Not found'))
             .then(flight => {
                 rabbot.publish("ex.1", {

@@ -1,6 +1,6 @@
 const mongoose = require('../config/database');
 
-const bagageSchema = new mongoose.Schema({
+const baggageSchema = new mongoose.Schema({
     Weight: {
         type: Number,
         required: true,
@@ -8,6 +8,6 @@ const bagageSchema = new mongoose.Schema({
     }
 });
 
-const Bagages = mongoose.model('Bagages', bagageSchema);
+const Baggages = mongoose.model('Baggages', baggageSchema);
 
-module.exports = Bagages; 
+module.exports = Baggages; 
