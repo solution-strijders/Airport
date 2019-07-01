@@ -29,6 +29,15 @@ module.exports = {
     },
 
     ChangeStatus(req, res, next) {
+        const flight = Flight.findById(req.params.id);
+
+        if (req.body.Status == 'Departing') {
+            if (!flight.Plane.IsFueled || !flight.Plane.IsBaggageStowed) {
+                res.status(401).json({message: "Flight isn't fueled or baggage isn't stowed."});
+                return;
+            }
+        }
+
         Flight.findByIdAndUpdate({ _id: req.params.id }, { Status: req.body.Status })
             .then((result, err) => {
                 if (result && !err) {
