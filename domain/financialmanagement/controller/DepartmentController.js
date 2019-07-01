@@ -1,4 +1,5 @@
 const Department = require("../models/financeDepartment");
+const rabbit = require("../rabbot/rabbot");
 
 module.exports = {
     Index(req, res, next){
@@ -20,7 +21,14 @@ module.exports = {
         }
 
         Department.create(params)
-            .then(spaces => res.send(spaces))
+            .then(spaces => {
+                rabbit.publish("ex.1", {
+                    routingKey: "financialNoted",
+                    type: "financialNoted",
+                    body: params
+                });
+                res.send(spaces)
+            })
             .catch(next);
     },
     //TODO: Add bill option (Group and ID)
