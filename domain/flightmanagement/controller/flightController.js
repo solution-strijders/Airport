@@ -97,15 +97,6 @@ module.exports = {
                             body: flight
                         });
 
-                        rabbot.publish("ex.1", {
-                            routingKey: "statusChanged",
-                            type: "statusChanged",
-                            body: {
-                                _id: req.params.id,
-                                Status: flight.Status,
-                            }
-                        });
-
                         res.status(200).json({
                             status: {
                                 query: 'OK'
