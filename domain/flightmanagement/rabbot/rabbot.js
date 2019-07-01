@@ -28,7 +28,7 @@ rabbot
             {
                 exchange: "ex.1",
                 target: "flightmanagement_queue",
-                keys: ["passengerNoted", "flightNoted", "planeNoted", "statusChanged"]
+                keys: ["passengerNoted", "flightNoted", "planeNoted", "statusChanged", "fuelApproved"]
             }
         ]
     })
@@ -39,6 +39,11 @@ rabbot
     })
     .catch(error => console.log("Rabbot connect error: " + error));
 
+rabbot.handle("fuelApproved", msg => {
+    Plane.findByIdAndUpdate(msg.body._id, msg.body.plane)
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
 
 rabbot.handle("flightNoted", msg => {
     new Flight(msg)
