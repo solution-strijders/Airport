@@ -1,5 +1,6 @@
-const User = require("../models/users");
 const rabbot = require("../rabbot/rabbot");
+
+const User = require("../models/users");
 const Baggage = require("../models/baggage");
 const Flight = require('../models/flight');
 const Airline = require('../models/airline');
@@ -29,6 +30,27 @@ module.exports = {
     },
 
     ChangeStatus(req, res, next) {
+        const flight = Flight.findById(req.params.id);
+
+        if (req.body.Status == 'Departing') {
+            if (!flight.Plane.IsFueled || !flight.Plane.IsBaggageStowed) {
+                res.status(401).json({ message: "Flight isn't fueled or baggage isn't stowed." });
+                return;
+            }
+        }
+
+        if (req.body.Status == 'Departed') {
+            if (!flight.TakeoffApproved) {
+                res.status(401).json({ message: "Flight can't depart if not approved by control tower." });
+            }
+        }
+
+        if (req.body.Status == 'Landed') {
+            if (!flight.LandingApproved) {
+                res.status(401).json({ message: "Flight can't land if not approved by control tower." });
+            }
+        }
+
         Flight.findByIdAndUpdate({ _id: req.params.id }, { Status: req.body.Status })
             .then((result, err) => {
                 if (result && !err) {
@@ -37,11 +59,14 @@ module.exports = {
                         type: "planeNoted",
                         body: result
                     });
-                    
+
                     rabbot.publish("ex.1", {
                         routingKey: "statusChanged",
                         type: "statusChanged",
-                        body: flight.Status
+                        body: {
+                            _id: req.params.id,
+                            Status: flight.Status,
+                        }
                     });
 
                     res.status(200);

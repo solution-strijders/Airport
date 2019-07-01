@@ -31,7 +31,7 @@ rabbot
             {
                 exchange: "ex.1",
                 target: "baggagemanagement_queue",
-                keys: ["passengerChecked", "flightNoted"]
+                keys: ["passengerChecked", "flightNoted", "statusChanged", "baggageStowed"]
             }
         ]
     })
@@ -69,6 +69,20 @@ rabbot.handle("flightNoted", msg => {
             msg.nack();
         }
     })
+});
+
+rabbot.handle("statusChanged", msg => {
+    flight.findByIdAndDelete(msg.body._id)
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+
+    rabbot.publish("ex.1", {
+        routingKey: "baggageStowed",
+        type: "baggageStowed",
+        body: {
+            _id: msg.body._id
+        }
+    });
 });
 
 rabbot.handle("passengerChecked", msg => {
