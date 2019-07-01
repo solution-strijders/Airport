@@ -30,7 +30,7 @@ rabbot
             {
                 exchange: "ex.1",
                 target: "flightmanagement_queue",
-                keys: ["passengerNoted", "flightNoted", "planeNoted", "statusChanged", "stowBaggage"]
+                keys: ["passengerNoted", "flightNoted", "planeNoted", "statusChanged"]
             }
         ]
     })

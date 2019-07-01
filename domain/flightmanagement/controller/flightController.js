@@ -37,14 +37,12 @@ module.exports = {
                         type: "planeNoted",
                         body: result
                     });
-
-                    if (req.body.Status == 'Boarding') {
-                        rabbot.publish("ex.1", {
-                            routingKey: "stowBaggage",
-                            type: "stowBaggage",
-                            body: result
-                        });
-                    }
+                    
+                    rabbot.publish("ex.1", {
+                        routingKey: "statusChanged",
+                        type: "statusChanged",
+                        body: flight.Status
+                    });
 
                     res.status(200);
                     res.send(result);
