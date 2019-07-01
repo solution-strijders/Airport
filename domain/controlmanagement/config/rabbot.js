@@ -27,7 +27,7 @@ rabbot
             {
                 exchange: "ex.1",
                 target: "controlmanagement_queue",
-                keys: ["landingApproved", "takeoffApproved"]
+                keys: ["flightNoted", "landingApproved", "takeoffApproved"]
             }
         ]
     })

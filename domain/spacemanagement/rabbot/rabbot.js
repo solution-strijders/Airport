@@ -44,12 +44,4 @@ rabbot
     rabbot.retry();
   } );
 
-rabbot.handle("spaceNoted", msg => {
-  console.log("I SEE SPACE" + msg);
-  new space(msg)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
-
 module.exports = rabbot;

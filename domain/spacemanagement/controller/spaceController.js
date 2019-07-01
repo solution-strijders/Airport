@@ -2,7 +2,7 @@ const Space = require("../models/space");
 const rabbot = require("../rabbot/rabbot");
 
 module.exports = {
-    Index(req, res, next){
+    Index(req, res, next) {
         Space.find({}, function (err, docs) {
             if (!err) {
                 res.status(200).json({
@@ -14,7 +14,7 @@ module.exports = {
             } else { throw err; }
         });
     },
-    Create(req, res, next){
+    Create(req, res, next) {
         const params = {
             Name: req.body.Name,
             SpaceType: "Free room",
@@ -27,18 +27,18 @@ module.exports = {
                     routingKey: "spaceNoted",
                     type: "spaceNoted",
                     body: params
-                 });
-             res.send(spaces)
-            }) 
+                });
+                res.send(spaces)
+            })
             .catch(next);
     },
-    ReserveSpace(req, res, next){
+    ReserveSpace(req, res, next) {
         const params = {
             SpaceType: req.body.SpaceType,
             Status: "Taken",
         }
 
-        Space.findByIdAndUpdate(req.params.id, params, {new: true})
+        Space.findByIdAndUpdate(req.params.id, params, { new: true })
             .then(spaces => res.send(spaces))
             .catch(next)
     }
