@@ -30,51 +30,41 @@ module.exports = {
     },
 
     ChangeStatus(req, res, next) {
-        const flight = Flight.findById(req.params.id);
 
-        if (req.body.Status == 'Departing') {
-            if (!flight.Plane.IsFueled || !flight.Plane.IsBaggageStowed) {
-                res.status(401).json({ message: "Flight isn't fueled or baggage isn't stowed." });
-                return;
+        Flight.findById({_id: req.params.id}, function(err, flight){
+            if (req.body.Status == 'Departing') {
+                if (!flight.Plane.IsFueled || !flight.Plane.IsBaggageStowed) {
+                    res.status(401).json({ message: "Flight isn't fueled or baggage isn't stowed." });
+                    return;
+                }
             }
-        }
-
-        if (req.body.Status == 'Departed') {
-            if (!flight.TakeoffApproved) {
-                res.status(401).json({ message: "Flight can't depart if not approved by control tower." });
+    
+            if (req.body.Status == 'Departed') {
+                if (!flight.TakeoffApproved) {
+                    res.status(401).json({ message: "Flight can't depart if not approved by control tower." });
+                }
             }
-        }
-
-        if (req.body.Status == 'Landed') {
-            if (!flight.LandingApproved) {
-                res.status(401).json({ message: "Flight can't land if not approved by control tower." });
+    
+            if (req.body.Status == 'Landed') {
+                if (!flight.LandingApproved) {
+                    res.status(401).json({ message: "Flight can't land if not approved by control tower." });
+                }
             }
-        }
 
-        Flight.findByIdAndUpdate({ _id: req.params.id }, { Status: req.body.Status })
-            .then((result, err) => {
-                if (result && !err) {
-                    rabbot.publish("ex.1", {
-                        routingKey: "planeNoted",
-                        type: "planeNoted",
-                        body: result
-                    });
+            flight.Status = req.body.Status;
+            flight.save();
 
-                    rabbot.publish("ex.1", {
-                        routingKey: "statusChanged",
-                        type: "statusChanged",
-                        body: {
-                            _id: req.params.id,
-                            Status: flight.Status,
-                        }
-                    });
-
-                    res.status(200);
-                    res.send(result);
-                } else {
-                    res.send(err);
+    
+            rabbot.publish("ex.1", {
+                routingKey: "statusChanged",
+                type: "statusChanged",
+                body: {
+                    _id: req.params.id,
+                    Status: req.body.Status,
                 }
             });
+        })
+
     },
 
     PostFlight(req, res, next) {
@@ -95,15 +85,6 @@ module.exports = {
                             routingKey: "flightNoted",
                             type: "flightNoted",
                             body: flight
-                        });
-
-                        rabbot.publish("ex.1", {
-                            routingKey: "statusChanged",
-                            type: "statusChanged",
-                            body: {
-                                _id: req.params.id,
-                                Status: flight.Status,
-                            }
                         });
 
                         res.status(200).json({

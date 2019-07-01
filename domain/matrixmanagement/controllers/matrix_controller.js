@@ -17,12 +17,17 @@ module.exports = {
                         "Origin": element.Origin,
                         "Destination": element.Destination,
                         "Gate" : element.Gate,
-                        "Depart": element.DepartDateTime
+                        "Depart": element.DepartDateTime,
+                        "Status": element.Status
                     });
                 });
 
-                res.status(200);
-                res.send(matrixData);
+                res.status(200).json({
+                    status: {
+                        query: 'OK'
+                    },
+                    result: matrixData
+                });
 
             }else{
                 console.log(err);

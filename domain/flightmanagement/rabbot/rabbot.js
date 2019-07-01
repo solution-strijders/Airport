@@ -28,7 +28,7 @@ rabbot
             {
                 exchange: "ex.1",
                 target: "flightmanagement_queue",
-                keys: ["passengerNoted", "flightNoted", "planeNoted", "statusChanged", "fuelApproved"]
+                keys: ["passengerChecked", "flightNoted", "planeNoted", "statusChanged", "fuelApproved", "baggageStowed"]
             }
         ]
     })
@@ -40,30 +40,72 @@ rabbot
     .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbot.handle("fuelApproved", msg => {
-    Plane.findByIdAndUpdate(msg.body._id, msg.body.plane)
-        .then(() => msg.ack())
-        .catch(err => msg.nack());
+    console.log(msg.body);
+
+    Flight.findById({_id: msg.body._id}, function(err, flight){
+        if(!err){
+            flight.Plane = msg.body.plane;
+            flight.save();
+            msg.ack();
+        } else{
+            msg.nack();
+        }
+    })
 });
 
-rabbot.handle("flightNoted", msg => {
-    new Flight(msg)
-        .save()
-        .then(() => msg.ack())
-        .catch(err => msg.nack());
+
+rabbot.handle("baggageStowed", msg => {
+
+
+    Flight.findById({_id: msg.body._id}, function(err, flight){
+        if(!err){
+            flight.Plane = msg.body.plane;
+            flight.save();
+
+            console.log(flight);
+
+            msg.ack();
+        } else{
+            msg.nack();
+        }
+    })
 });
 
-rabbot.handle("passengerNoted", msg => {
-    new Passenger(msg)
-        .save()
-        .then(() => msg.ack())
-        .catch(err => msg.nack());
+
+rabbot.handle("passengerChecked", msg => {
+    Passenger.create({
+        Name: msg.body.Name,
+        Age: msg.body.Age,
+        JoinedFlightID: msg.body.JoinedFlightID
+    }, function(err, passenger){
+        Flight.findById({_id: passenger.JoinedFlightID}, function(err, flight){
+            if(!err){
+                flight.Passengers.push(passenger);
+                flight.save();
+                msg.ack();
+            } else{
+                msg.nack();
+            }
+
+        })
+    })
 });
 
-rabbot.handle("planeNoted", msg => {
-    new Plane(msg)
-        .save()
-        .then(() => msg.ack())
-        .catch(err => msg.nack());
+rabbot.handle("takeoffApproved", msg => {
+
+    console.log("taking off");
+    Flight.findById({_id: msg.body._id}, function(err, flight){
+        if(!err){
+            flight.Status = "Departed"
+            flight.save();
+
+            console.log(flight);
+
+            msg.ack();
+        } else{
+            msg.nack();
+        }
+    })
 });
 
 module.exports = rabbot;

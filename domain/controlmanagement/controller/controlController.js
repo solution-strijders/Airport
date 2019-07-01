@@ -25,16 +25,9 @@ module.exports = {
     },
 
     approveTakeoff(req, res, next) {
-        const objectId = req.params.id;
-        const objectProps = {
-            Status: 'Landed',
-            TakeoffApproved: true,
-        };
 
-        Flight.findByIdAndUpdate(objectId, objectProps, { new: true })
-            .and({ Status: 'Departing' })
-            .orFail(() => Error('Not found'))
-            .then(flight => {
+        Flight.findById({_id: req.params.id}, function(err, flight){
+            if(flight.Status == 'Departing'){
                 rabbot.publish("ex.1", {
                     routingKey: "takeoffApproved",
                     type: "takeoffApproved",
@@ -45,8 +38,12 @@ module.exports = {
                     status: { query: 'OK' },
                     result: flight
                 });
-            })
-            .catch(next);
+            } else{
+                res.status(402).json({
+                    status: { query: 'Plane is not departing' },
+                });
+            }
+        })
     },
 
     approveLanding(req, res, next) {

@@ -2,7 +2,7 @@
 //RecieptList
 
 const mongoose = require('../config/database');
-const billSchema = require('../models/Bill').schema;
+const billSchema = require('../models/bill').schema;
 
 const departmentSchema = new mongoose.Schema({
     Name: {

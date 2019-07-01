@@ -26,7 +26,7 @@ rabbot.configure({
         {
             exchange: "ex.1",
             target: "groundmanagement_queue",
-            keys: ["fuelApproved"]
+            keys: ["fuelApproved", "flightNoted", "statusChanged", "baggageStowed"]
         }
     ]
 }).then(() => {
@@ -36,6 +36,7 @@ rabbot.configure({
 }).catch(error => console.log("Rabbot connect error: " + error));
 
 rabbot.handle("flightNoted", msg => {
+    console.log("flightNoted")
     flight.create({
         _id: msg.body._id,
         FlightNumber: msg.body.FlightNumber,
@@ -51,8 +52,10 @@ rabbot.handle("flightNoted", msg => {
         DepartDateTime: msg.body.DepartDateTime
     }, function (err, flight) {
         if (!err) {
+            console.log("ack")
             msg.ack();
         } else {
+            console.log("nack")
             msg.nack();
         }
     })
@@ -66,6 +69,26 @@ rabbot.handle("statusChanged", msg => {
         });
     }
     
+});
+
+
+rabbot.handle("baggageStowed", msg => {
+    console.log("baggageStowed");
+    flight.findById({_id: msg.body._id}, function(err, flight){
+        if(!err){
+            if(flight == null){
+                msg.ack();
+            } else{
+
+            flight.Plane = msg.body.plane;
+            flight.save();
+            msg.ack();
+            }
+        } else{
+            console.log("failed");
+            msg.ack();
+        }
+    })
 });
 
 module.exports = rabbot;

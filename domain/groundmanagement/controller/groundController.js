@@ -1,12 +1,13 @@
 const plane = require("../models/plane");
 const rabbot = require("../config/rabbot");
+const flight = require("../models/flight");
 
 module.exports = {
     index(req, res, next) {
-        plane.find({})
-            .then(planes => res.status(200).json({
+        flight.find({})
+            .then(flights => res.status(200).json({
                 status: { query: 'OK' },
-                result: planes
+                result: flights
             }))
             .catch(next);
     },
@@ -24,11 +25,13 @@ module.exports = {
     },
 
     approveFuel(req, res, next) {
-        flight.findById({_id: req.body._id}, function(err, result) {
+        flight.findById({_id: req.params.id}, function(err, flight) {
             if (!err) {
-                var plane = flight.plane;
-                plane.isFueled = true;
+                var plane = flight.Plane;
+                plane.IsFueled = true;
                 plane.save();
+
+
                 rabbot.publish("ex.1", {
                     routingKey: "fuelApproved",
                     type: "fuelApproved",
