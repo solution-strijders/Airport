@@ -17,15 +17,15 @@ volumes:
     axon_data: ~
 
 services:
-    axon:
-      image: axoniq/axonserver:4.1.2
-      restart: always
-      hostname: axon
-      volumes:
-        - axon_data:/opt/axonserver/data
-      expose:
-        - 8024
-        - 8124
+    # axon:
+    #   image: axoniq/axonserver:4.1.2
+    #   restart: always
+    #   hostname: axon
+    #   volumes:
+    #     - axon_data:/opt/axonserver/data
+    #   expose:
+    #     - 8024
+    #     - 8124
  
     rabbitmq:
         image: rabbitmq:3.7.5-management
@@ -107,7 +107,6 @@ services:
     #     networks:
     #       - mongo_border
         
-
     checkinmanagement:
         build: 
           context: .
@@ -128,16 +127,15 @@ services:
           - rabbitmq
           - mongo_checkin
 
-    mongo_checkin:
-        image: mongo
-        volumes:
-          - /data/checkin
-        ports:
-          - "27019:27019"
-        networks:
-          - mongo_checkin
+    # mongo_checkin:
+    #     image: mongo
+    #     volumes:
+    #       - /data/checkin
+    #     ports:
+    #       - "27019:27019"
+    #     networks:
+    #       - mongo_checkin
         
-
     controlmanagement:
         build: 
           context: .
@@ -158,14 +156,14 @@ services:
           - rabbitmq
           - mongo_control
 
-    mongo_control:
-        image: mongo
-        volumes:
-          - /data/control
-        ports:
-          - "27020:27020"
-        networks:
-          - mongo_control
+    # mongo_control:
+    #     image: mongo
+    #     volumes:
+    #       - /data/control
+    #     ports:
+    #       - "27020:27020"
+    #     networks:
+    #       - mongo_control
         
 
     financialmanagement:
@@ -188,14 +186,14 @@ services:
           - rabbitmq
           - mongo_financial
 
-    mongo_financial:
-        image: mongo
-        volumes:
-          - /data/financial
-        ports:
-          - "27021:27021"
-        networks:
-          - mongo_financial
+    # mongo_financial:
+    #     image: mongo
+    #     volumes:
+    #       - /data/financial
+    #     ports:
+    #       - "27021:27021"
+    #     networks:
+    #       - mongo_financial
         
 
     flightmanagement:
@@ -245,16 +243,7 @@ services:
           - rabbitmq
         networks:
           - rabbitmq
-          - mongo_matrix
-
-    mongo_matrix:
-        image: mongo
-        volumes:
-          - /data/matrix
-        ports:
-          - "27023:27023"
-        networks:
-          - mongo_matrix
+          - mongo_flight
         
 
     securitymanagement_read:
@@ -297,14 +286,14 @@ services:
           - rabbitmq
           - mongo_security
 
-    mongo_security:
-        image: mongo
-        volumes:
-          - /data/security
-        ports:
-          - "27024:27024"
-        networks:
-          - mongo_security
+    # mongo_security:
+    #     image: mongo
+    #     volumes:
+    #       - /data/security
+    #     ports:
+    #       - "27024:27024"
+    #     networks:
+    #       - mongo_security
         
 
     spacemanagement:
@@ -326,14 +315,13 @@ services:
         networks:
           - rabbitmq
           - mongo_space
-
-    mongo_space:
-        image: mongo
-        volumes:
-          - /data/space
-        ports:
-          - "27025:27025"
-        networks:
-          - mongo_space
+          
+    # mongo_space:
+    #     image: mongo
+    #     volumes:
+    #       - /data/space
+    #     ports:
+    #       - "27025:27025"
+    #     networks:
+    #       - mongo_space
         
-
