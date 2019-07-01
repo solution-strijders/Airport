@@ -12,11 +12,11 @@ const planeSchema = new mongoose.Schema({
     PassengerLimit: {
         type: Number
     },
-    FuelApproved: {
+    IsFueled: {
         type: Boolean
     },
-    Notes: {
-        type: String
+    IsBaggageStowed: {
+        type: Boolean
     }
 });
 

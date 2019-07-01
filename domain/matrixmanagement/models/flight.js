@@ -3,7 +3,8 @@ const mongoose = require('../config/database');
 const planeSchema = require('../models/plane').schema;
 const airlineSchema = require('../models/airline').schema;
 const passengerSchema = require('../models/passenger').schema;
-const baggageSchema = require('../models/baggage').schema;
+const bagageSchema = require('../models/bagage').schema;
+
 
 const flightSchema = new mongoose.Schema({
     FlightNumber: {
@@ -20,8 +21,8 @@ const flightSchema = new mongoose.Schema({
     Passengers: {
         type: [passengerSchema]
     },
-    Baggage: {
-        type: [baggageSchema]
+    Baggage:{
+        type: [bagageSchema]
     },
     Origin: {
         type: String
@@ -29,31 +30,16 @@ const flightSchema = new mongoose.Schema({
     Destination: {
         type: String
     },
-    Gate: {
+    Gate:{
         type: String
     },
-    Status: {
-        type: String,
-        enum: [
-            'Landing',      // Requesting to land.
-            'Landed',       // Landed.
-            'CheckIn',      // Ready to check in.
-            'Boarding',     // Passengers are boarding
-            'Delayed',      // Delayed status for matrix.
-            'Departing',    // Requesting to depart.
-            'Departed'      // Departed out of application scope.
-        ]
+    Status:{
+        type: String
     },
-    LandingApproved: {
-        type: Boolean
-    },
-    TakeoffApproved: {
-        type: Boolean
-    },
-    CurrentPassengers: {
+    CurrentPassengers:{
         type: Number
     },
-    DepartDateTime: {
+    DepartDateTime:{
         type: Date
     }
 });

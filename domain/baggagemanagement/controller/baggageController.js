@@ -22,24 +22,15 @@ module.exports = {
     },
     Stow(req, res, next) {
         Flight.findById({_id: req.params.id}, function(err, flight){
-            Baggage.create({
-                Weight: req.body.weight,
-                Flight: flight
-            }, function(err, baggage){
-                if(!err){
-                rabbit.publish("ex.1", {
-                        routingKey: "baggageStowed",
-                        type: "baggageStowed",
-                        body: baggage
-                });
+            rabbit.publish("ex.1", {
+                routingKey: "baggageStowed",
+                type: "baggageStowed",
+                body: flight
+            });
 
-                res.status(200).json({
-                    status: {
-                        query: 'Baggage stowed.'
-                    },
-                    result: baggage
-                }).end();
-                }
+            flight.remove();
+            res.status(200).json({
+                query: 'OK'
             })
         })
     }

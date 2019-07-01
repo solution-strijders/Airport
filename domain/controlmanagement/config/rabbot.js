@@ -27,7 +27,7 @@ rabbot
             {
                 exchange: "ex.1",
                 target: "controlmanagement_queue",
-                keys: ["landingApproved", "takeoffApproved"]
+                keys: ["flightNoted", "statusChanged", "landingApproved", "takeoffApproved"]
             }
         ]
     })
@@ -41,6 +41,16 @@ rabbot
 rabbot.handle("flightNoted", msg => {
     new Flight(msg)
         .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
+
+rabbot.handle("statusChanged", msg => {
+    const objectProps = {
+        Status: msg.body.Status,
+    };
+
+    Flight.findByIdAndUpdate(msg.body._id, objectProps, { new: true })
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
