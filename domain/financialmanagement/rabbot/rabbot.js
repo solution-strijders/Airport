@@ -1,5 +1,5 @@
 const rabbot = require("rabbot");
-const space = require("../models/space").Space;
+const Bill = require("../models/bill");
 
 require("dotenv").config();
 
@@ -29,7 +29,7 @@ rabbot
       {
         exchange: "ex.1",
         target: "financialmanagement_queue",
-        keys: ["billNoted"]
+        keys: ["financialNoted", "billNoted"]
       }
     ]
   })
@@ -44,12 +44,23 @@ rabbot
     rabbot.retry();
   } );
 
-rabbot.handle("billNoted", msg => {
-  console.log("ALL THESE BILLS" + msg);
-  new space(msg)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
+  rabbot.handle("spaceNoted", msg => {
+    console.log(msg.body.Passenger);
 
+    // Bill.create({
+    //   Name: msg.body.Passenger.Name,
+    //   Age: msg.body.Passenger.Age,
+    //   JoinedFlightID: msg.body.Passenger.JoinedFlightID
+    // }, function(err, passenger){
+    //   if(!err){
+    //     console.log("acknowled");
+    //     msg.ack();
+    //   } else{
+    //     console.log(err);
+    //     msg.nack();
+    //   }
+    // });
+    msg.ack();
+  });
+  
 module.exports = rabbot;

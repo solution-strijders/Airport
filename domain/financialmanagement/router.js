@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 //Declare any routes here.
-const financeDepRoutes = require("./routes/department_routes.js");
+const borderRouter = require("./routes/border_routes.js");
 
-router.use("/finance", financeDepRoutes);
+router.use("/border", borderRouter);
 
 router.use((error, req, res, next) => {
   res.status(error.header || 500).send({
@@ -20,7 +20,7 @@ router.use("*", (req, res) => {
   res
     .status(404)
     .send({
-      message: "404 not found"
+      message: "404 not found | Financial Management"
     })
     .end();
 });

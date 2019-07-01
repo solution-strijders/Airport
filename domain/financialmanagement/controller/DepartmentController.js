@@ -1,4 +1,4 @@
-const Department = require("../models/FinanceDepartment");
+const Department = require("../models/financeDepartment");
 
 module.exports = {
     Index(req, res, next){
