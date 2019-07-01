@@ -37,11 +37,14 @@ module.exports = {
                         type: "planeNoted",
                         body: result
                     });
-                    
+
                     rabbot.publish("ex.1", {
                         routingKey: "statusChanged",
                         type: "statusChanged",
-                        body: flight.Status
+                        body: {
+                            _id: req.params.id,
+                            Status: flight.Status,
+                        }
                     });
 
                     res.status(200);
@@ -75,7 +78,10 @@ module.exports = {
                         rabbot.publish("ex.1", {
                             routingKey: "statusChanged",
                             type: "statusChanged",
-                            body: flight.Status
+                            body: {
+                                _id: req.params.id,
+                                Status: flight.Status,
+                            }
                         });
 
                         res.status(200).json({

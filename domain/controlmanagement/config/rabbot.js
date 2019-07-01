@@ -47,10 +47,10 @@ rabbot.handle("flightNoted", msg => {
 
 rabbot.handle("statusChanged", msg => {
     const objectProps = {
-        Status: msg.Status,
+        Status: msg.body.Status,
     };
 
-    Flight.findByIdAndUpdate(msg._id, objectProps, { new: true })
+    Flight.findByIdAndUpdate(msg.body._id, objectProps, { new: true })
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
