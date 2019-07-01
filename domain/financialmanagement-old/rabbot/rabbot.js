@@ -24,6 +24,12 @@ rabbot
         autoDelete: false,
         durable: true,
         subscribe: true
+      },
+      {
+        name: "spacemanagement_queue",
+        autoDelete: false,
+        durable: true,
+        subscribe: true
       }
     ],
     bindings: [
@@ -31,12 +37,18 @@ rabbot
         exchange: "ex.1",
         target: "financialmanagement_queue",
         keys: ["billNoted", "departmentCreated"]
+      },
+      {
+        exchange: "ex.1",
+        target: "spacemanagement_queue",
+        keys: ["spaceNoted"]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
     rabbot.startSubscription("financialmanagement_queue");
+    rabbot.startSubscription("spacemanagement_queue");
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
