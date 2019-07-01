@@ -1,9 +1,6 @@
 const rabbot = require("rabbot");
-const bagage = require("../models/bagage");
-const flight = require('../models/flight');
-const passenger = require('../models/passenger');
-const plane = require('../models/plane');
-const user = require('../models/users');
+const Passenger = require("../models/passenger");
+
 require("dotenv").config();
 
 rabbot
@@ -13,6 +10,8 @@ rabbot
       user: process.env.RABBIT_USER,
       pass: process.env.RABBIT_PASS,
       host: process.env.RABBIT_HOST,
+      timeout: 3000,
+      retryLimit: 3,
       port: 5672,
       vhost: "%2f",
       replyQueue: false
@@ -30,7 +29,7 @@ rabbot
       {
         exchange: "ex.1",
         target: "bordermanagement_queue",
-        keys: ["passengerNoted"]
+        keys: ["passengerNoted", "checkinNoted"]
       }
     ]
   })
@@ -41,11 +40,26 @@ rabbot
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbot.handle("passengerNoted", msg => {
-  new passenger(msg)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
+  rabbot.on( "unreachable", function() {
+    rabbot.retry();
+  } );
 
+  rabbot.handle("checkinNoted", msg => {
+    console.log(msg.body.Passenger);
+
+    Passenger.create({
+      Name: msg.body.Passenger.Name,
+      Age: msg.body.Passenger.Age,
+      JoinedFlightID: msg.body.Passenger.JoinedFlightID
+    }, function(err, passenger){
+      if(!err){
+        console.log("acknowled");
+        msg.ack();
+      } else{
+        console.log(err);
+        msg.nack();
+      }
+    });
+  });
+  
 module.exports = rabbot;

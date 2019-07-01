@@ -16,4 +16,4 @@ const planeSchema = new mongoose.Schema({
 
 const Planes = mongoose.model('Planes', planeSchema);
 
-module.exports = Planes; 
+module.exports = Planes;

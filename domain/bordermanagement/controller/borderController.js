@@ -1,4 +1,5 @@
 const Passenger = require("../models/passenger");
+const rabbit = require("../rabbot/rabbot");
 
 module.exports = {
     GetPassengers(req, res, next) {
@@ -13,24 +14,18 @@ module.exports = {
             } else { throw err; }
         });
     },
-    CreatePassenger(req, res, next) {
-        Passenger.create({
-            Name: req.body.name,
-            Age: req.body.age
-        }, function(err, passenger){
-            if(!err){
-                rabbit.publish("ex.1", {
-                    routingKey: "passengerNoted",
-                    type: "passengerNoted",
-                    body: passenger
-                 });
-                res.status(200).json({
-                    status: {
-                        query: 'OK'
-                    },
-                    result: passenger
-                })
-            }
+    CheckPassenger(req, res, next) {
+        Passenger.findById({_id: req.body.id}, function(err, passenger){
+            rabbit.publish("ex.1", {
+                routingKey: "passengerChecked",
+                type: "passengerChecked",
+                body: passenger
+            });
+
+            passenger.remove();
+            res.status(200).json({
+                query: 'OK'
+            })
         })
     }
 }
