@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/solution-strijders/Airport#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "mongoose-amqp-plugin": "^0.1.2"
   }
 }

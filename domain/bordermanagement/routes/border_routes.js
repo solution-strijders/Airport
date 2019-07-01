@@ -5,6 +5,6 @@ const borderController = require('../controller/borderController');
 
 /* GET users listing. */
 router.get('/', borderController.GetPassengers);
-router.post('/', borderController.CreatePassenger);
+router.delete('/', borderController.CheckPassenger);
 
 module.exports = router;
