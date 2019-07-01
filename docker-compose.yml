@@ -1,8 +1,8 @@
-version: '3'
+version: '2.3'
 networks:
     rabbitmq: ~
-    mongo_baggage: ~
-    mongo_border: ~
+    # mongo_baggage: ~
+    # mongo_border: ~
     mongo_checkin: ~
     mongo_control: ~
     mongo_financial: ~
@@ -10,7 +10,6 @@ networks:
     mongo_matrix: ~
     mongo_security: ~
     mongo_space: ~
-    mongo_ground: ~
 
 
 volumes:
@@ -34,6 +33,11 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:15672"]
+          interval: 30s
+          timeout: 10s
+          retries: 5
         volumes:
             - rabbitmq-data:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
         environment:
@@ -56,6 +60,10 @@ services:
     #       - ./domain/baggagemanagement:/app
     #     ports: 
     #       - 3001:3000
+    #     depends_on:
+    #       - rabbitmq
+    #     links:
+    #       - rabbitmq
     #     networks:
     #       - rabbitmq
     #       - mongo_baggage
@@ -74,7 +82,7 @@ services:
     #     build: 
     #       context: .
     #       dockerfile: ./domain/bordermanagement/Dockerfile
-    #     restart: always
+    #     restart: on-failure
     #     environment:
     #       - PORT=3000
     #     command: ["/bin/sh", "-c", "npm install && node app.js"]
@@ -82,6 +90,10 @@ services:
     #       - ./domain/bordermanagement:/app
     #     ports: 
     #       - 3002:3000
+    #     depends_on:
+    #       - rabbitmq
+    #     links:
+    #       - rabbitmq
     #     networks:
     #       - rabbitmq
     #       - mongo_border
@@ -95,22 +107,25 @@ services:
     #     networks:
     #       - mongo_border
         
-
-    # checkinmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/checkinmanagement/Dockerfile
-    #     restart: always
-    #     environment:
-    #       - PORT=3000
-    #     command: ["/bin/sh", "-c", "npm install && node app.js"]
-    #     volumes:
-    #       - ./domain/checkinmanagement:/app
-    #     ports: 
-    #       - 3003:3000
-    #     networks:
-    #       - rabbitmq
-    #       - mongo_checkin
+    checkinmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/checkinmanagement/Dockerfile
+        restart: on-failure
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/checkinmanagement:/app
+        ports: 
+          - 3003:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
+        networks:
+          - rabbitmq
+          - mongo_checkin
 
     # mongo_checkin:
     #     image: mongo
@@ -121,22 +136,25 @@ services:
     #     networks:
     #       - mongo_checkin
         
-
-    # controlmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/controlmanagement/Dockerfile
-    #     restart: always
-    #     environment:
-    #       - PORT=3000
-    #     command: ["/bin/sh", "-c", "npm install && node app.js"]
-    #     volumes:
-    #       - ./domain/controlmanagement:/app
-    #     ports: 
-    #       - 3004:3000
-    #     networks:
-    #       - rabbitmq
-    #       - mongo_control
+    controlmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/controlmanagement/Dockerfile
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/controlmanagement:/app
+        ports: 
+          - 3004:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
+        networks:
+          - rabbitmq
+          - mongo_control
 
     # mongo_control:
     #     image: mongo
@@ -148,21 +166,25 @@ services:
     #       - mongo_control
         
 
-    # financialmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/financialmanagement/Dockerfile
-    #     restart: always
-    #     environment:
-    #       - PORT=3000
-    #     command: ["/bin/sh", "-c", "npm install && node app.js"]
-    #     volumes:
-    #       - ./domain/financialmanagement:/app
-    #     ports: 
-    #       - 3005:3000
-    #     networks:
-    #       - rabbitmq
-    #       - mongo_financial
+    financialmanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/financialmanagement/Dockerfile
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/financialmanagement:/app
+        ports: 
+          - 3005:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
+        networks:
+          - rabbitmq
+          - mongo_financial
 
     # mongo_financial:
     #     image: mongo
@@ -186,6 +208,10 @@ services:
           - ./domain/flightmanagement:/app
         ports: 
           - 3006:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
         networks:
           - rabbitmq
           - mongo_flight
@@ -211,26 +237,54 @@ services:
           - ./domain/matrixmanagement:/app
         ports: 
           - 3007:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
         networks:
           - rabbitmq
           - mongo_flight
         
 
-    # securitymanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/securitymanagement/Dockerfile
-    #     restart: always
-    #     environment:
-    #       - PORT=3000
-    #     command: ["/bin/sh", "-c", "npm install && node app.js"]
-    #     volumes:
-    #       - ./domain/securitymanagement:/app
-    #     ports: 
-    #       - 3008:3000
-    #     networks:
-    #       - rabbitmq
-    #       - mongo_security
+    securitymanagement_read:
+        build: 
+          context: .
+          dockerfile: ./domain/securitymanagement_read/Dockerfile
+        restart: on-failure
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/securitymanagement_read:/app
+        ports: 
+          - 3012:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
+        networks:
+          - rabbitmq
+          - mongo_security
+
+    securitymanagement_write:
+        build: 
+          context: .
+          dockerfile: ./domain/securitymanagement_write/Dockerfile
+        restart: on-failure
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/securitymanagement_write:/app
+        ports: 
+          - 3011:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
+        networks:
+          - rabbitmq
+          - mongo_security
 
     # mongo_security:
     #     image: mongo
@@ -242,22 +296,26 @@ services:
     #       - mongo_security
         
 
-    # spacemanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/spacemanagement/Dockerfile
-    #     restart: always
-    #     environment:
-    #       - PORT=3000
-    #     command: ["/bin/sh", "-c", "npm install && node app.js"]
-    #     volumes:
-    #       - ./domain/spacemanagement:/app
-    #     ports: 
-    #       - 3009:3000
-    #     networks:
-    #       - rabbitmq
-    #       - mongo_space
-
+    spacemanagement:
+        build: 
+          context: .
+          dockerfile: ./domain/spacemanagement/Dockerfile
+        restart: always
+        environment:
+          - PORT=3000
+        command: ["/bin/sh", "-c", "npm install && node app.js"]
+        volumes:
+          - ./domain/spacemanagement:/app
+        ports: 
+          - 3009:3000
+        depends_on:
+          - rabbitmq
+        links:
+          - rabbitmq
+        networks:
+          - rabbitmq
+          - mongo_space
+          
     # mongo_space:
     #     image: mongo
     #     volumes:
@@ -266,29 +324,4 @@ services:
     #       - "27025:27025"
     #     networks:
     #       - mongo_space
-        
-    # groundmanagement:
-    #     build: 
-    #       context: .
-    #       dockerfile: ./domain/groundmanagement/Dockerfile
-    #     restart: always
-    #     environment:
-    #       - PORT=3000
-    #     command: ["/bin/sh", "-c", "npm install && node app.js"]
-    #     volumes:
-    #       - ./domain/groundmanagement:/app
-    #     ports: 
-    #       - 3010:3000
-    #     networks:
-    #       - rabbitmq
-    #       - mongo_ground
-
-    # mongo_ground:
-    #     image: mongo
-    #     volumes:
-    #       - /data/ground
-    #     ports:
-    #       - "27026:27026"
-    #     networks:
-    #       - mongo_ground
         

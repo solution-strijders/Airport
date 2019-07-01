@@ -8,6 +8,9 @@ const passengerSchema = new mongoose.Schema({
     },
     Age: {
         type: Number
+    },
+    JoinedFlightID: {
+        type: String
     }
 });
 

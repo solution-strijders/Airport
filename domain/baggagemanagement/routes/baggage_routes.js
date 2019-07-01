@@ -7,6 +7,4 @@ const baggageController = require('../controller/baggageController');
 router.get('/', baggageController.RetrieveFromFlight);
 router.post('/', baggageController.Stow);
 
-router.post('/test', baggageController.Test);
-
 module.exports = router;

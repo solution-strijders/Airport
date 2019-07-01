@@ -12,8 +12,8 @@ const planeSchema = new mongoose.Schema({
     PassengerLimit: {
         type: Number
     },
-    Fuel: {
-        type: Number
+    FuelApproved: {
+        type: Boolean
     },
     Notes: {
         type: String

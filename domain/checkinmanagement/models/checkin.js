@@ -1,6 +1,7 @@
 const mongoose = require('../config/database');
 
 const flightSchema = require('./flight').schema;
+const passengerSchema = require('./passenger').schema;
 
 const checkInSchema = new mongoose.Schema({
     CheckInNumber: {
@@ -10,7 +11,10 @@ const checkInSchema = new mongoose.Schema({
         default: 1
     },
     Flight: {
-        type: flightSchema
+        type: String
+    },
+    Passenger: {
+        type: passengerSchema
     }
 });
 
