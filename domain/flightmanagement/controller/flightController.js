@@ -21,7 +21,7 @@ module.exports = {
         .then((result, err)=> {
             if(result && !err){
                 res.status(200);
-                res.send(result);
+                res.send("Status updated");
             }else{
                 res.send(err);
             }
