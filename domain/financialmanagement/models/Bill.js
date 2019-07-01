@@ -3,8 +3,14 @@
 const mongoose = require('../config/database');
 
 const billSchema = new mongoose.Schema({
-    Name: {
+    SpaceID: {
+        type: String
+    },
+    PassengerName: {
         type: String,
+    },
+    Amount: {
+        type: Number,
         required: true
     },
     BillType: {

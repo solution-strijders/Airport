@@ -40,8 +40,4 @@ rabbot
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-  rabbot.on( "unreachable", function() {
-    rabbot.retry();
-  } );
-
 module.exports = rabbot;
