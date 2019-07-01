@@ -2,7 +2,6 @@ const rabbot = require("rabbot");
 const flight = require('../models/flight');
 const passenger = require('../models/passenger');
 const plane = require('../models/plane');
-const user = require('../models/users');
 require("dotenv").config();
 
 rabbot

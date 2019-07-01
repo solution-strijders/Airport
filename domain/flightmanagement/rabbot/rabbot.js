@@ -20,7 +20,7 @@ rabbot
     exchanges: [{ name: "ex.1", type: "direct", autoDelete: false }],
     queues: [
       {
-        name: "financialmanagement_queue",
+        name: "flightmanagement_queue",
         autoDelete: false,
         durable: true,
         subscribe: true
@@ -29,24 +29,18 @@ rabbot
     bindings: [
       {
         exchange: "ex.1",
-        target: "financialmanagement_queue",
-        keys: ["baggageNoted", "flightNoted"]
+        target: "flightmanagement_queue",
+        keys: ["passengerNoted", "flightNoted", "planeNoted"]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
-    rabbot.startSubscription("financialmanagement_queue");
+    rabbot.startSubscription("flightmanagement_queue");
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbot.handle("baggageNoted", msg => {
-  new bagage(msg)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
 
 rabbot.handle("flightNoted", msg => {
     new flight(msg)
@@ -64,13 +58,6 @@ rabbot.handle("flightNoted", msg => {
   
   rabbot.handle("planeNoted", msg => {
     new plane(msg)
-      .save()
-      .then(() => msg.ack())
-      .catch(err => msg.nack());
-  });
-
-  rabbot.handle("userNoted", msg => {
-    new user(msg)
       .save()
       .then(() => msg.ack())
       .catch(err => msg.nack());

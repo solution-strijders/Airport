@@ -1,6 +1,6 @@
 const mongoose = require('../config/database');
 
-const planeSchema = require('../models/plane').schema;
+const planeSchema = require('./plane').schema;
 
 const airlineSchema = new mongoose.Schema({
     Name: {

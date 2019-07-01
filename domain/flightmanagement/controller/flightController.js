@@ -2,6 +2,8 @@ const User = require("../models/users");
 const rabbot = require("../rabbot/rabbot");
 const Baggage = require("../models/bagage");
 const Flight = require('../models/flight');
+const Airline = require('../models/airline');
+const Plane = require('../models/plane');
 
 module.exports = {
     GetFlight(req,res,next){
@@ -16,10 +18,26 @@ module.exports = {
         });
     },
 
+    GetFlights(req, res, next){
+        Flight.find()
+        .then((result, err) => {
+            if(!err){
+                res.status(200);
+                res.send(result);
+            }
+        });
+    },
+
     ChangeStatus(req,res,next){
         Flight.findByIdAndUpdate({_id: req.params.id}, {Status : req.body.Status})
         .then((result, err)=> {
             if(result && !err){
+                rabbot.publish("ex.1", {
+                    routingKey: "planeNoted",
+                    type: "planeNoted",
+                    body: result
+                });
+
                 res.status(200);
                 res.send(result);
             }else{
@@ -29,27 +47,72 @@ module.exports = {
     },
 
     PostFlight(req,res,next){
-        Flight.create({
-            FlightNumber: req.body.FlightNumber,
-            Origin: req.body.Origin,
-            Plane: req.body.Plane,
-            Airline: req.body.Airline,
-            Destination: req.body.Destination,
-            Gate: req.body.Gate,
-            CurrentPassengers: 0,
-            DepartDateTime: req.body.DepartDateTime
-            
-        }, function(err, flight){
+        Plane.findById({_id: req.body.Plane}, function(err, plane){
+            Airline.findById({_id: req.body.Airline}, function(err, airline){
+                Flight.create({
+                    FlightNumber: req.body.FlightNumber,
+                    Origin: req.body.Origin,
+                    Plane: plane,
+                    Airline: airline,
+                    Destination: req.body.Destination,
+                    Gate: req.body.Gate,
+                    CurrentPassengers: 0,
+                    DepartDateTime: req.body.DepartDateTime
+                }, function(err, flight){
+                    if(!err){
+                        
+                        rabbot.publish("ex.1", {
+                            routingKey: "flightNoted",
+                            type: "flightNoted",
+                            body: flight
+                        });
+                        
+                        res.status(200).json({
+                            status: {
+                                query: 'OK'
+                            },
+                            result: flight
+                        });
+                    }else{
+                        res.send(err);
+                    }
+                })
+            })
+        })
+    },
+
+    PostPlane(req, res, next){
+        Plane.create({
+            Name: "Boeing 747-Max",
+            CarryCapacity: 100,
+            PassengerLimit: 75
+        }, function(err, plane){
             if(!err){
                 res.status(200).json({
-                    status: {
+                    status:{
                         query: 'OK'
                     },
-                    result: flight
+                    result: plane
                 })
-            }else{
-                res.send(err);
             }
+        })
+    },
+
+    PostAirline(req, res, next){
+        Plane.findById({_id: req.body.plane}, function(err, plane){
+            Airline.create({
+                Name: "KLM",
+                Fleet: [plane]
+            }, function(err, airline){
+                if(!err){
+                    res.status(200).json({
+                        status:{
+                            query: 'OK'
+                        },
+                        result: airline
+                    })
+                }
+            })
         })
     }
 }

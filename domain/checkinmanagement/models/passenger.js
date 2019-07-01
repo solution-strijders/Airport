@@ -1,4 +1,5 @@
 const mongoose = require('../config/database');
+const flightSchema = require('../models/flight');
 
 const passengerSchema = new mongoose.Schema({
     Name: {
@@ -8,6 +9,9 @@ const passengerSchema = new mongoose.Schema({
     },
     Age: {
         type: Number
+    },
+    JoinedFlightID: {
+        type: String
     }
 });
 
