@@ -39,6 +39,12 @@ module.exports = {
             }
         }
 
+        if (req.body.Status == 'Departed') {
+            if (!flight.TakeoffApproved) {
+                res.status(401).json({ message: "Flight can't depart if not approved by control tower." });
+            }
+        }
+
         if (req.body.Status == 'Landed') {
             if (!flight.LandingApproved) {
                 res.status(401).json({ message: "Flight can't land if not approved by control tower." });
