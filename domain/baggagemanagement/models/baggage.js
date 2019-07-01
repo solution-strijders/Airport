@@ -1,6 +1,6 @@
 const mongoose = require('../config/database');
 
-const flightSchema = require('./flight').schema;
+const flightSchema = require('../models/flight');
 
 const baggageSchema = new mongoose.Schema({
     Weight: {
