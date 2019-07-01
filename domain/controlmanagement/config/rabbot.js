@@ -38,21 +38,40 @@ rabbot
     })
     .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbot.handle("flightNoted", msg => {
-    new Flight(msg)
-        .save()
-        .then(() => msg.ack())
-        .catch(err => msg.nack());
-});
+    rabbot.handle("flightNoted", msg => {
+        console.log(msg.body);
+        Flight.create({
+            _id: msg.body._id,
+            FlightNumber: msg.body.FlightNumber,
+            Plane: msg.body.Plane,
+            Airline: msg.body.Airline,
+            Passengers: msg.body.Passengers,
+            Baggage: msg.body.Baggage,
+            Origin: msg.body.Origin,
+            Destination: msg.body.Destination,
+            Gate: msg.body.Gate,
+            Status: msg.body.Status,
+            CurrentPassengers: msg.body.CurrentPassengers,
+            DepartDateTime: msg.body.DepartDateTime
+        }, function (err, flight) {
+            if (!err) {
+                console.log("ack");
+                msg.ack();
+            } else {
+                console.log("nack");
+                msg.nack();
+            }
+        })
+    });
 
 rabbot.handle("statusChanged", msg => {
-    const objectProps = {
-        Status: msg.body.Status,
-    };
+    console.log(msg.body);
 
-    Flight.findByIdAndUpdate(msg.body._id, objectProps, { new: true })
-        .then(() => msg.ack())
-        .catch(err => msg.nack());
+    Flight.findById({_id: msg.body._id}, function(err, flight){
+        flight.Status = msg.body.Status;
+        flight.save();
+        msg.ack();
+    })
 });
 
 module.exports = rabbot;
