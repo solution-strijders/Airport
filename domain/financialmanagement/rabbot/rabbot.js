@@ -29,7 +29,7 @@ rabbot
       {
         exchange: "ex.1",
         target: "financialmanagement_queue",
-        keys: ["financialNoted", "billNoted"]
+        keys: ["financialNoted", "spaceBillNoted", "passengerBillNoted", "checkinNoted"]
       }
     ]
   })
@@ -40,27 +40,13 @@ rabbot
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-  rabbot.on( "unreachable", function() {
-    rabbot.retry();
-  } );
+  // rabbot.on( "unreachable", function() {
+  //   rabbot.retry();
+  // } );
 
-  rabbot.handle("spaceNoted", msg => {
-    console.log(msg.body.Passenger);
-
-    // Bill.create({
-    //   Name: msg.body.Passenger.Name,
-    //   Age: msg.body.Passenger.Age,
-    //   JoinedFlightID: msg.body.Passenger.JoinedFlightID
-    // }, function(err, passenger){
-    //   if(!err){
-    //     console.log("acknowled");
-    //     msg.ack();
-    //   } else{
-    //     console.log(err);
-    //     msg.nack();
-    //   }
-    // });
-    msg.ack();
-  });
+  // rabbot.handle("checkinNoted", msg => {
+  //   console.log(msg.body.msg);
+  //   msg.ack();
+  // });
   
 module.exports = rabbot;

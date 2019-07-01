@@ -1,4 +1,4 @@
-const Bill = require("../models/Bill");
+const Bill = require("../models/bill");
 
 module.exports = {
     Index(req, res, next){
@@ -12,22 +12,5 @@ module.exports = {
                 }).end();
             } else { throw err; }
         });
-    },
-    Create(req, res, next){
-        const params = {
-            Name: req.body.Name,
-            BillType: null
-        }
-
-        Bill.create(params)
-            .then(spaces => {
-                rabbot.publish("ex.1", {
-                    routingKey: "billNoted",
-                    type: "billNoted",
-                    body: params
-                 });
-                 res.send(spaces)
-            })
-            .catch(next);
     }
 }
